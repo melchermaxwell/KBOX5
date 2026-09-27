@@ -26,4 +26,183 @@
 
 <section class="cta"><div><p class="eyebrow">YOUR NEXT CHAPTER STARTS HERE</p><h2>Give your aircraft<br>a place to call home.</h2></div><button class="button" data-inquire>Discuss leasing <span>↗</span></button></section></main>
 <footer><span class="footer-company">KBOX5 LLC</span><span>NEW BRAUNFELS, TX · KBAZ</span><a href="#main">Back to top ↑</a></footer>
-<dialog id="inquiry" aria-labelledby="inquiry-title"><button class="close" aria-label="Close inquiry">×</button><p class="eyebrow">LEASING INQUIRIES</p><h2 id="inquiry-title">Let’s talk hangars.</h2><p class="dialog-intro">Contact Pete about leasing, availability, and finding the right space for your aircraft.</p><div id="contact-result"><p class="eyebrow">EMAIL PETE</p><a id="contact-email" class="email-address" href="mailto:pete@kbox5.com">pete@kbox5.com</a><p class="verification-copy">Include your aircraft model and any questions about leasing.</p><a id="compose-email" class="button" href="mailto:pete@kbox5.com?subject=KBOX5%20hangar%20leasing%20inquiry">Open email app <span>↗</span></a></div></dialog><script src="app.js"></script><script type="module" src="planner.js"></script></body></html>
+<dialog id="inquiry" aria-labelledby="inquiry-title"><button class="close" aria-label="Close inquiry">×</button><p class="eyebrow">LEASING INQUIRIES</p><h2 id="inquiry-title">Let’s talk hangars.</h2><p class="dialog-intro">Contact Pete about leasing, availability, and finding the right space for your aircraft.</p><div id="contact-result"><p class="eyebrow">EMAIL PETE</p><a id="contact-email" class="email-address" href="mailto:pete@kbox5.com">pete@kbox5.com</a><p class="contact-copy">Include your aircraft model and any questions about leasing.</p><a id="compose-email" class="button" href="mailto:pete@kbox5.com?subject=KBOX5%20hangar%20leasing%20inquiry">Open email app <span>↗</span></a></div></dialog><script data-source="app.js">
+const dialog = document.querySelector('#inquiry');
+document.querySelectorAll('[data-inquire]').forEach(button => button.addEventListener('click', () => { dialog.showModal(); }));
+document.querySelector('.close').addEventListener('click', () => dialog.close());
+dialog.addEventListener('click', event => { if (event.target === dialog) { const r = dialog.getBoundingClientRect(); if (event.clientX < r.left || event.clientX > r.right || event.clientY < r.top || event.clientY > r.bottom) dialog.close(); } });
+const menu = document.querySelector('.menu');
+menu.addEventListener('click', () => { const open = document.querySelector('nav').classList.toggle('open'); menu.setAttribute('aria-expanded', String(open)); menu.setAttribute('aria-label', open ? 'Close menu' : 'Open menu'); });
+document.querySelectorAll('nav a').forEach(link => link.addEventListener('click', () => { document.querySelector('nav').classList.remove('open'); menu.setAttribute('aria-expanded', 'false'); menu.setAttribute('aria-label', 'Open menu'); }));
+
+</script><script data-source="planner-geometry.js">
+(() => {
+'use strict';
+const models = [
+  {
+    "id": "king",
+    "name": "King Air C90B",
+    "type": "Twin turboprop",
+    "shape": "twin",
+    "span": 50.25,
+    "length": 35.5,
+    "color": "#edc34f",
+    "dimensions": "50′ 3″ span · 35′ 6″ long",
+    "source": "https://aeroresourcesinc.com/uploads/200305-2003%2520Beech%2520King%2520Air%2520C90B.pdf"
+  },
+  {
+    "id": "king200",
+    "name": "King Air 200",
+    "type": "B200 · twin turboprop",
+    "shape": "twin",
+    "span": 54.5,
+    "length": 43.75,
+    "color": "#e3b76a",
+    "dimensions": "54′ 6″ span · 43′ 9″ long",
+    "source": "https://www.aopa.org/news-and-media/all-news/2020/september/pilot/turbine-quick-look-beechraft-king-air-200"
+  },
+  {
+    "id": "bravo",
+    "name": "Citation Bravo",
+    "type": "Cessna · light jet",
+    "shape": "straight-jet",
+    "span": 52.166666666666664,
+    "length": 47.166666666666664,
+    "color": "#97b8d2",
+    "dimensions": "52′ 2″ span · 47′ 2″ long",
+    "source": "https://www.aopa.org/news-and-media/all-news/1996/june/pilot/turbine-pilot-(3)"
+  },
+  {
+    "id": "phenom",
+    "name": "Phenom 300",
+    "type": "Embraer · light jet",
+    "shape": "jet",
+    "span": 52.166666666666664,
+    "length": 51.333333333333336,
+    "color": "#a9aeda",
+    "dimensions": "52′ 2″ span · 51′ 4″ long",
+    "source": "https://www.embraer.com/media/b4lchr5u/phenom-300e-electronic.pdf"
+  },
+  {
+    "id": "tbm",
+    "name": "TBM 850",
+    "type": "Single-engine turboprop",
+    "shape": "single",
+    "span": 41.583333333333336,
+    "length": 34.916666666666664,
+    "color": "#c2c990",
+    "dimensions": "41′ 7″ span · 34′ 11″ long",
+    "source": "https://www.aopa.org/news-and-media/all-news/2020/march/flight-training-magazine/ol-ramp-appeal-tbm"
+  },
+  {
+    "id": "pc12",
+    "name": "Pilatus PC-12",
+    "type": "PC-12 NG · single turboprop",
+    "shape": "single",
+    "span": 53.333333333333336,
+    "length": 47.25,
+    "color": "#91c4c9",
+    "dimensions": "53′ 4″ span · 47′ 3″ long",
+    "source": "https://airmen.ch/wp-content/uploads/2018/03/Pilatus-Aircraft-Ltd-PC-12NG-Factsheet.pdf"
+  },
+  {
+    "id": "vision",
+    "name": "Cirrus Vision Jet",
+    "type": "SF50 · single-engine jet",
+    "shape": "vision",
+    "span": 38.7,
+    "length": 30.7,
+    "color": "#d5b7c9",
+    "dimensions": "38.7′ span · 30.7′ long",
+    "source": "https://cirrusaircraft.com/wp-content/uploads/2018/06/N1WA-Spec-Sheet.pdf"
+  },
+  {
+    "id": "cessna",
+    "name": "Cessna 185F",
+    "type": "Skywagon · tailwheel",
+    "shape": "single",
+    "span": 35.833333333333336,
+    "length": 25.625,
+    "color": "#9ac7b3",
+    "dimensions": "35′ 10″ span · 25′ 7½″ long",
+    "source": "https://www.aopa.org/news-and-media/all-news/2015/june/pilot/f_185"
+  },
+  {
+    "id": "mustang",
+    "name": "P-51D Mustang",
+    "type": "Warbird · tailwheel",
+    "shape": "single",
+    "span": 37,
+    "length": 32.25,
+    "color": "#bdc5ce",
+    "dimensions": "37′ span · 32′ 3″ long",
+    "source": "https://www.nationalmuseum.af.mil/Visit/Museum-Exhibits/Fact-Sheets/Display/Article/196263/north-american-p-51d-mustang/"
+  }
+];
+// Convex schematic components; outer wing and nose/tail extents match published dimensions.
+function parts(model) {
+ const jet=['jet','straight-jet','vision'].includes(model.shape), swept=['jet','vision'].includes(model.shape), single=['single','vision'].includes(model.shape);
+ const shapes=[
+ [[0,-.5],[.045,-.43],[.065,-.25],[.055,.2],[.018,.5],[-.018,.5],[-.055,.2],[-.065,-.25],[-.045,-.43]],
+ swept ? [[-.06,-.05],[-.5,.2],[-.5,.27],[-.05,.12]] : [[-.055,-.17],[-.5,-.1],[-.5,.035],[-.055,.065]],
+ swept ? [[.06,-.05],[.5,.2],[.5,.27],[.05,.12]] : [[.055,-.17],[.5,-.1],[.5,.035],[.055,.065]],
+ [[-.025,.30],[-.21,.40],[-.21,.46],[-.02,.43]], [[.025,.30],[.21,.40],[.21,.46],[.02,.43]]
+ ];
+ if(model.shape==='vision'){shapes[3]=[[-.018,.27],[-.19,.44],[-.17,.49],[-.015,.42]];shapes[4]=shapes[3].map(([x,y])=>[-x,y]);shapes.push([[-.035,.06],[.035,.06],[.035,.30],[-.035,.30]]);}
+ if(!single) for(const sign of [-1,1]) {const x=sign*(jet?.09:.18), y=jet?.22:-.24;shapes.push([[x-.026,y],[x+.026,y],[x+.026,y+.23],[x-.026,y+.23]]);}
+ return shapes.map(p=>p.map(([x,y])=>[x*model.span,y*model.length]));
+}
+function worldParts(plane) {const angle=plane.angle*Math.PI/180,c=Math.cos(angle),s=Math.sin(angle);return parts(plane.model).map(p=>p.map(([x,y])=>[plane.x+x*c-y*s,plane.y+x*s+y*c]));}
+function overlaps(a,b) {
+ for(const poly of [a,b]) for(let i=0;i<poly.length;i++) {const j=(i+1)%poly.length,axis=[-(poly[j][1]-poly[i][1]),poly[j][0]-poly[i][0]];const project=p=>p.map(([x,y])=>x*axis[0]+y*axis[1]);const pa=project(a),pb=project(b);if(Math.max(...pa)<Math.min(...pb)-1e-7||Math.max(...pb)<Math.min(...pa)-1e-7)return false;}
+ return true;
+}
+function assess(planes) {
+ const shapes=planes.map(worldParts);return planes.map((plane,i)=>({outside:shapes[i].flat().some(([x,y])=>x<0||x>65||y<0||y>60),overlap:shapes.some((other,j)=>i!==j&&shapes[i].some(a=>other.some(b=>overlaps(a,b))))}));
+}
+
+globalThis.KBOX5Geometry = Object.freeze({models,parts,worldParts,overlaps,assess});
+})();
+
+</script><script data-source="planner.js">
+(() => {
+'use strict';
+const {models,parts,assess} = globalThis.KBOX5Geometry;
+const $=id=>document.getElementById(id), svg=$('hangar-canvas'),layer=$('aircraft-layer');
+let planes=[],selected=null,serial=0,gesture=null;
+const polygon=p=>`<polygon points="${p.map(v=>v.join(',')).join(' ')}"/>`;
+function thumbnail(model){return `<svg viewBox="-36 -38 72 76" aria-hidden="true"><g fill="${model.color}" stroke="#243e50" stroke-width=".5">${parts(model).map(polygon).join('')}</g></svg>`;}
+models.forEach(model=>{const card=document.createElement('button');card.className='aircraft-card';card.draggable=false;card.setAttribute('aria-label',`Add ${model.name}`);card.innerHTML=`${thumbnail(model)}<span><strong>${model.name}</strong><small>${model.type}</small><small>${model.dimensions}</small></span><b aria-hidden="true">+</b>`;let cardDrag=null,suppressClick=false;
+card.addEventListener('click',()=>{if(suppressClick){suppressClick=false;return;}add(model);});
+card.addEventListener('pointerdown',e=>{if(e.button!==0)return;suppressClick=false;cardDrag={id:e.pointerId,x:e.clientX,y:e.clientY,ghost:null};card.setPointerCapture(e.pointerId);});
+card.addEventListener('pointermove',e=>{if(!cardDrag||cardDrag.id!==e.pointerId)return;if(!cardDrag.ghost&&Math.hypot(e.clientX-cardDrag.x,e.clientY-cardDrag.y)>6){const ghost=card.cloneNode(true);ghost.classList.add('aircraft-drag-preview');ghost.setAttribute('aria-hidden','true');document.body.append(ghost);cardDrag.ghost=ghost;}if(cardDrag.ghost){e.preventDefault();cardDrag.ghost.style.left=`${e.clientX+12}px`;cardDrag.ghost.style.top=`${e.clientY+12}px`;}});
+card.addEventListener('pointerup',e=>{if(!cardDrag)return;if(cardDrag.ghost){suppressClick=true;cardDrag.ghost.remove();const r=svg.getBoundingClientRect();if(e.clientX>=r.left&&e.clientX<=r.right&&e.clientY>=r.top&&e.clientY<=r.bottom){const pos=point(e);add(model,pos.x,pos.y);}}cardDrag=null;});
+card.addEventListener('pointercancel',()=>{cardDrag?.ghost?.remove();cardDrag=null;});$('aircraft-catalog').append(card);});
+function point(event){const p=new DOMPoint(event.clientX,event.clientY);return p.matrixTransform(svg.getScreenCTM().inverse());}
+function add(model,x=32.5,y=30){if(planes.length>=12){$('layout-status').textContent='Up to 12 aircraft can be compared at once. Remove one to add another.';return;}const plane={id:++serial,model,x,y,angle:0};planes.push(plane);selected=plane.id;render();}
+function current(){return planes.find(p=>p.id===selected);}
+function render(){const checks=assess(planes);layer.innerHTML=planes.map((plane,i)=>{const active=plane.id===selected,bad=checks[i].outside||checks[i].overlap;return `<g class="placed-aircraft${active?' selected':''}" data-plane="${plane.id}" transform="translate(${plane.x} ${plane.y}) rotate(${plane.angle})" tabindex="0" role="button" aria-label="${plane.model.name} ${plane.id}, ${Math.round(plane.angle)} degrees${bad?', layout conflict':''}"><g fill="${bad?'#e78e7d':plane.model.color}" stroke="${active?'#fff':'#0c2230'}" stroke-width=".22" stroke-linejoin="round">${parts(plane.model).map(polygon).join('')}</g><path d="M0 ${-plane.model.length*.32}V${plane.model.length*.27}" stroke="#163648" stroke-width=".25"/><text y="1.2" text-anchor="middle" font-size="1.8" fill="#142c3c" pointer-events="none">${plane.id}</text>${active?`<path d="M0 ${-plane.model.length/2}v-3" stroke="#fff" stroke-width=".18"/><circle class="rotate-handle" data-rotate="true" cy="${-plane.model.length/2-3}" r="1.25" fill="#fff" stroke="#edc34f" stroke-width=".35"/>`:''}</g>`;}).join('');
+$('planner-empty').style.display=planes.length?'none':'';$('plane-count').textContent=`${planes.length} aircraft`;
+const select=$('selected-plane');select.replaceChildren();if(!planes.length)select.add(new Option('No aircraft selected',''));for(const p of planes)select.add(new Option(`${p.id}. ${p.model.name}`,String(p.id)));select.value=String(selected??'');
+const p=current();for(const id of ['plane-angle','rotate-left','rotate-right','remove-plane'])$(id).disabled=!p;
+$('plane-angle').value=p?Math.round(p.angle):0;$('angle-value').value=`${p?Math.round(p.angle):0}°`;
+const c=p?checks[planes.indexOf(p)]:null;$('selected-status').textContent=!p?'Select an aircraft to move or rotate it.':`${p.model.dimensions}${c.outside?' · Crosses hangar boundary':''}${c.overlap?' · Overlaps another footprint':''}`;
+const outside=checks.filter(c=>c.outside).length,overlap=checks.filter(c=>c.overlap).length;
+$('layout-status').classList.toggle('has-conflict',outside+overlap>0);$('layout-status').textContent=!planes.length?'Your hangar is ready. Add an aircraft from the selection.':outside||overlap?`${outside?`${outside} aircraft crossing the boundary. `:''}${overlap?`${overlap} aircraft with overlapping footprints.`:''}`:'All illustrated footprints are inside the hangar without overlap.';
+}
+svg.addEventListener('dragover',e=>{e.preventDefault();e.dataTransfer.dropEffect='copy';});svg.addEventListener('drop',e=>{e.preventDefault();const model=models.find(m=>m.id===e.dataTransfer.getData('text/plain'));if(model){const p=point(e);add(model,p.x,p.y);}});
+svg.addEventListener('pointerdown',e=>{if(e.button!==0)return;const target=e.target.closest('[data-plane]');if(!target)return;const rotating=e.target.hasAttribute('data-rotate');selected=Number(target.dataset.plane);const p=current(),pos=point(e);gesture={id:e.pointerId,rotate:rotating,dx:pos.x-p.x,dy:pos.y-p.y};svg.setPointerCapture(e.pointerId);e.preventDefault();render();});
+svg.addEventListener('pointermove',e=>{if(!gesture||gesture.id!==e.pointerId)return;const p=current(),pos=point(e);if(!p)return;if(gesture.rotate)p.angle=(Math.atan2(pos.y-p.y,pos.x-p.x)*180/Math.PI+90+360)%360;else{p.x=Math.max(-3,Math.min(68,pos.x-gesture.dx));p.y=Math.max(-3,Math.min(63,pos.y-gesture.dy));}render();});
+function endDrag(){gesture=null;}svg.addEventListener('pointerup',endDrag);svg.addEventListener('pointercancel',endDrag);svg.addEventListener('lostpointercapture',endDrag);
+svg.addEventListener('keydown',e=>{const target=e.target.closest('[data-plane]');if(!target)return;selected=Number(target.dataset.plane);const p=current();const keys=['ArrowLeft','ArrowRight','ArrowUp','ArrowDown','r','R','Delete','Backspace','Enter',' '];if(!keys.includes(e.key))return;e.preventDefault();if(e.key==='ArrowLeft')p.x-=1;if(e.key==='ArrowRight')p.x+=1;if(e.key==='ArrowUp')p.y-=1;if(e.key==='ArrowDown')p.y+=1;if(e.key.toLowerCase()==='r')p.angle=(p.angle+(e.shiftKey?345:15))%360;if(e.key==='Delete'||e.key==='Backspace')remove();else render();layer.querySelector(`[data-plane="${selected}"]`)?.focus();});
+$('selected-plane').addEventListener('change',e=>{selected=Number(e.target.value);render();});
+$('plane-angle').addEventListener('input',e=>{if(current()){current().angle=Number(e.target.value);render();}});
+function rotate(amount){if(current()){current().angle=(current().angle+amount+360)%360;render();}}
+$('rotate-left').addEventListener('click',()=>rotate(-15));$('rotate-right').addEventListener('click',()=>rotate(15));
+function remove(){planes=planes.filter(p=>p.id!==selected);selected=planes.at(-1)?.id??null;render();}
+$('remove-plane').addEventListener('click',remove);$('clear-planes').addEventListener('click',()=>{planes=[];selected=null;render();});
+add(models[0]);
+
+})();
+
+</script></body></html>

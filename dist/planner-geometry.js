@@ -1,4 +1,6 @@
-export const models = [
+(() => {
+'use strict';
+const models = [
   {
     "id": "king",
     "name": "King Air C90B",
@@ -100,7 +102,7 @@ export const models = [
   }
 ];
 // Convex schematic components; outer wing and nose/tail extents match published dimensions.
-export function parts(model) {
+function parts(model) {
  const jet=['jet','straight-jet','vision'].includes(model.shape), swept=['jet','vision'].includes(model.shape), single=['single','vision'].includes(model.shape);
  const shapes=[
  [[0,-.5],[.045,-.43],[.065,-.25],[.055,.2],[.018,.5],[-.018,.5],[-.055,.2],[-.065,-.25],[-.045,-.43]],
@@ -112,11 +114,14 @@ export function parts(model) {
  if(!single) for(const sign of [-1,1]) {const x=sign*(jet?.09:.18), y=jet?.22:-.24;shapes.push([[x-.026,y],[x+.026,y],[x+.026,y+.23],[x-.026,y+.23]]);}
  return shapes.map(p=>p.map(([x,y])=>[x*model.span,y*model.length]));
 }
-export function worldParts(plane) {const angle=plane.angle*Math.PI/180,c=Math.cos(angle),s=Math.sin(angle);return parts(plane.model).map(p=>p.map(([x,y])=>[plane.x+x*c-y*s,plane.y+x*s+y*c]));}
-export function overlaps(a,b) {
+function worldParts(plane) {const angle=plane.angle*Math.PI/180,c=Math.cos(angle),s=Math.sin(angle);return parts(plane.model).map(p=>p.map(([x,y])=>[plane.x+x*c-y*s,plane.y+x*s+y*c]));}
+function overlaps(a,b) {
  for(const poly of [a,b]) for(let i=0;i<poly.length;i++) {const j=(i+1)%poly.length,axis=[-(poly[j][1]-poly[i][1]),poly[j][0]-poly[i][0]];const project=p=>p.map(([x,y])=>x*axis[0]+y*axis[1]);const pa=project(a),pb=project(b);if(Math.max(...pa)<Math.min(...pb)-1e-7||Math.max(...pb)<Math.min(...pa)-1e-7)return false;}
  return true;
 }
-export function assess(planes) {
+function assess(planes) {
  const shapes=planes.map(worldParts);return planes.map((plane,i)=>({outside:shapes[i].flat().some(([x,y])=>x<0||x>65||y<0||y>60),overlap:shapes.some((other,j)=>i!==j&&shapes[i].some(a=>other.some(b=>overlaps(a,b))))}));
 }
+
+globalThis.KBOX5Geometry = Object.freeze({models,parts,worldParts,overlaps,assess});
+})();

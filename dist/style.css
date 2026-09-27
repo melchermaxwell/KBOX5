@@ -3,7 +3,7 @@
 
 /* Original taxiway sign recreated with resolution-independent vector paths. */
 .nav-logo{display:inline-flex;align-items:center;flex-shrink:0}.nav-logo img{display:block;width:220px;height:auto}@media(max-width:650px){.nav-logo img{width:190px}}
-.verification-copy{font-size:14px;line-height:1.7;color:var(--muted)}#contact-status{font-size:14px;line-height:1.6;margin-top:18px}#retry-verification{background:none;cursor:pointer;border:0;border-bottom:1px solid var(--muted)}.email-address{display:inline-block;font-size:clamp(22px,5vw,32px);letter-spacing:-.6px;border-bottom:1px solid var(--ink);margin-bottom:20px}#contact-result{border-top:1px solid var(--line);padding-top:24px}#captcha{min-height:0}#captcha:not(:empty){min-height:78px}@media(max-width:370px){dialog{padding-left:12px;padding-right:12px}}[hidden]{display:none!important}
+.contact-copy{font-size:14px;line-height:1.7;color:var(--muted)}.email-address{display:inline-block;font-size:clamp(22px,5vw,32px);letter-spacing:-.6px;border-bottom:1px solid var(--ink);margin-bottom:20px}#contact-result{border-top:1px solid var(--line);padding-top:24px}@media(max-width:370px){dialog{padding-left:12px;padding-right:12px}}[hidden]{display:none!important}
 
 footer .footer-company{margin-left:0;font-size:16px;font-weight:600;letter-spacing:.3px;white-space:nowrap}
 

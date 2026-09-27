@@ -1,4 +1,6 @@
-import {models,parts,assess} from './planner-geometry.js';
+(() => {
+'use strict';
+const {models,parts,assess} = globalThis.KBOX5Geometry;
 const $=id=>document.getElementById(id), svg=$('hangar-canvas'),layer=$('aircraft-layer');
 let planes=[],selected=null,serial=0,gesture=null;
 const polygon=p=>`<polygon points="${p.map(v=>v.join(',')).join(' ')}"/>`;
@@ -33,3 +35,5 @@ $('rotate-left').addEventListener('click',()=>rotate(-15));$('rotate-right').add
 function remove(){planes=planes.filter(p=>p.id!==selected);selected=planes.at(-1)?.id??null;render();}
 $('remove-plane').addEventListener('click',remove);$('clear-planes').addEventListener('click',()=>{planes=[];selected=null;render();});
 add(models[0]);
+
+})();

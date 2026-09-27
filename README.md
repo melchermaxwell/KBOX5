@@ -1,39 +1,34 @@
 # KBOX5
 
-Responsive hangar leasing website with locally stored images and a vector navbar logo.
+A static hangar leasing website with locally stored images, a vector logo, an email contact pop-up, and an interactive hangar planner.
 
-The contact pop-up currently shows Pete’s email directly, with a mailto link. CAPTCHA is paused; the server verification code is retained for possible future use. The frontend does not call it.
+## Open the site
 
-## Local preview
+Double-click **dist/index.html** to open the complete site in your browser. No Node.js, installation, build step, or local server is needed. Keep the entire `dist` folder together so scripts, styles, and images remain available.
 
-Requires Node.js 20.6 or newer. From this folder:
+The site also works on any ordinary static web host: upload the contents of `dist`.
 
-```sh
-node server.mjs
-```
-
-Open http://127.0.0.1:4173. The server serves only `dist/`; never expose the project root as static files.
-
-## Paused: protected email reveal
-
-1. Register reCAPTCHA v2 **I'm not a robot checkbox** keys at https://www.google.com/recaptcha/admin for your site. Use separate development keys with `localhost` allowed.
-2. Copy `.env.example` to `.env` and set the site and secret keys. Keep the secret on the server; do not put it in `dist/` or commit it.
-3. Start with `node --env-file=.env server.mjs`. For local CAPTCHA testing, visit http://localhost:4173 using a localhost-registered key.
-4. Production needs a Node backend/reverse proxy (or a port of the API to the host's server runtime), HTTPS, and the same server-only environment variables. The default server binds to loopback for local use. Keep production RECAPTCHA_HOSTNAMES limited to the actual production domain(s).
-
-The retained API keeps the email hidden without keys, but the current frontend intentionally displays the email directly. Reconnect the frontend verification flow before enabling CAPTCHA again. There is no fake CAPTCHA or insecure fallback. `/api/contact-email` verifies tokens with Google and checks the returned hostname before revealing the address. Google's verification rejects expired or reused tokens. API responses are not cached. CAPTCHA reduces automated harvesting but cannot stop a person or a bot that successfully solves it from copying a revealed address.
+Google Fonts load when online, with system-font fallbacks when offline. The planner, local photos, and contact pop-up work offline; external maps and source links require internet access. Email links open your configured email application.
 
 ## Files
 
-- `dist/index.html`, `style.css`, `app.js`: editable frontend
-- `dist/assets/hangars.jpeg`, `original-brand.png`: original locally stored site images
-- `dist/assets/kbox5-logo.svg`: vector recreation of supplied logo
-- `server.mjs`: static server and protected email API
-
-Run checks with `node --test server.test.mjs`. Tests stub Google's response to cover both rejection and success; a live challenge requires configured keys and a human tester.
+- `dist/index.html`: page content
+- `dist/style.css`: responsive styles
+- `dist/app.js`: navigation and email pop-up source
+- `dist/planner-geometry.js`: aircraft dimensions and overlap calculations
+- `dist/planner.js`: interactive planner source
+- `dist/assets/`: local images and vector logo
 
 ## Hangar planner
 
-The section at `/#planner` uses a 65 × 60 ft SVG coordinate system. Aircraft library: King Air C90B, King Air 200 (B200 dimensions), Citation Bravo, Phenom 300, TBM 850, Pilatus PC-12 (NG dimensions), Cirrus Vision Jet, Cessna 185F tailwheel, and P-51D Mustang. Dimensions and sources appear below the planner. Add via drag or click; move via pointer or arrow keys; rotate using the round handle, slider, 15° buttons, or R. Multiple aircraft are supported, up to 12. Layout is session-only and resets on reload.
+The planner uses a 65 × 60 ft coordinate system. Aircraft library: King Air C90B, King Air 200 (B200 dimensions), Citation Bravo, Phenom 300, TBM 850, Pilatus PC-12 (NG dimensions), Cirrus Vision Jet, Cessna 185F tailwheel, and P-51D Mustang. Dimensions and sources appear below the planner.
 
-`dist/planner-geometry.js` contains dimensioned schematic geometry and convex-polygon overlap checks. `dist/planner.js` manages UI interactions. Geometry checks: `node --test planner.test.mjs`. The planner is illustrative, excludes door/height/interior/maneuvering clearances, and does not certify real-world fit.
+Add via drag or click; move via pointer or arrow keys; rotate using the round handle, slider, 15° buttons, or R. Multiple aircraft are supported, up to 12. Layout is session-only and resets on reload.
+
+The planner is illustrative, excludes door/height/interior/maneuvering clearances, and does not certify real-world fit.
+
+## Optional developer checks
+
+Developers with Node.js can run `node --test planner.test.mjs` to check the geometry. Node is only needed for these optional automated checks, never for using the site.
+
+The three JavaScript source files are embedded in `dist/index.html` so the aircraft picker does not rely on loading adjacent scripts through `file://`. After editing a JavaScript source file, run `python3 scripts/embed-scripts.py` to refresh the inline copy. Visitors do not need Python or Node.

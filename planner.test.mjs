@@ -1,6 +1,7 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
-import {models,parts,worldParts,assess} from './dist/planner-geometry.js';
+import './dist/planner-geometry.js';
+const {models,parts,worldParts,assess} = globalThis.KBOX5Geometry;
 const plane=(model,x=32.5,y=30,angle=0)=>({model,x,y,angle});
 test('all schematic dimensions match published extents',()=>{for(const model of models){const points=parts(model).flat(),xs=points.map(p=>p[0]),ys=points.map(p=>p[1]);assert.ok(Math.abs(Math.max(...xs)-Math.min(...xs)-model.span)<1e-8);assert.ok(Math.abs(Math.max(...ys)-Math.min(...ys)-model.length)<1e-8);}});
 test('all catalog aircraft fit individually at center and flag wall crossings when moved',()=>{for(const model of models){assert.deepEqual(assess([plane(model)]),[{outside:false,overlap:false}]);assert.equal(assess([plane(model,0,0)])[0].outside,true);}});
