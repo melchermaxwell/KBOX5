@@ -25,6 +25,8 @@ The planner uses a 65 × 60 ft coordinate system. Aircraft library: King Air C90
 
 Add via drag or click; move via pointer or arrow keys; rotate using the round handle, slider, 15° buttons, or R. Multiple aircraft are supported, up to 12. Layout is session-only and resets on reload.
 
+Each aircraft has an individual top-view silhouette, with distinct wing and tail geometry, engine placement, cockpit glazing, and propellers. Collision detection uses triangulated versions of the same outlines. Silhouettes are illustrative rather than engineering drawings.
+
 The planner is illustrative, excludes door/height/interior/maneuvering clearances, and does not certify real-world fit.
 
 ## Optional developer checks
