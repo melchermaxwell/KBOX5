@@ -33,3 +33,6 @@ The latest supplied reference sets the top-view landmarks for the broad straight
 
 ### Pilatus PC-12 top-view refinement — September 28
 The latest user reference supplies the straight tapered wing, wingtip profile, broad parallel cabin, long nose, tapering rear fuselage, and wider squared horizontal-tail landmarks. Cockpit panes, side windows, entry/cargo doors, roof details, and control-surface outlines are drawn separately from the collision geometry. Existing catalog span and length remain unchanged, and the shared planform is used by the 3D mesh as well.
+
+### Cirrus SR22 addition — September 28
+The user's three-view drawing supplies the low-wing planform, cabin glazing and doors, conventional tail, side-profile proportions, and fixed landing gear with wheel fairings. Scale uses Cirrus's [2026 SR22 specifications](https://cirrusaircraft.com/wp-content/uploads/2024/01/International_SR22_PriceList_2026.pdf): 38 ft 4 in wingspan and 26 ft length. The 3D illustration uses a three-blade propeller, low wing with dihedral, broad cabin windows, wheel fairings, and a conventional tail. Smaller details and component heights remain illustrative.
