@@ -10,8 +10,8 @@
 <dialog id="share-dialog" aria-labelledby="share-title"><button type="button" class="close" id="close-share" aria-label="Close share dialog">×</button><p class="eyebrow">YOUR HANGAR LAYOUT</p><h2 id="share-title">Check out this KBOX5 hangar.</h2><img id="share-preview" alt="Preview of your aircraft arrangement"/><p class="contact-copy">Send this layout so someone else can explore the same aircraft, positions, and rotations.</p><label for="share-url">Layout link<input id="share-url" readonly type="url"/></label><p id="share-note" class="preview-note"></p><div class="share-buttons"><button id="copy-layout" class="button small">Copy link</button><button id="download-layout" class="button small">Save image</button></div><p id="share-status" role="status" aria-live="polite"></p></dialog>
 <section id="planner" class="section planner-section" aria-labelledby="planner-title">
 <div class="planner-heading"><div><p class="eyebrow">04 / MAKE ROOM FOR YOUR AIRCRAFT</p><h2 id="planner-title">See how you fit.</h2></div><p>One hangar. Your fleet.<br>Drag in an aircraft and make the space your own.</p></div>
-<div class="planner-shell"><div class="planner-workspace"><div class="planner-topbar"><span>INNER HANGAR / 65′ × 60′</span><div class="planner-actions"><button id="share-layout" class="button small">Share layout <svg class="button-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m8 11 8-5M8 13l8 5"/><circle cx="5" cy="12" r="3"/><circle cx="19" cy="4.5" r="3"/><circle cx="19" cy="19.5" r="3"/></svg></button><button id="clear-planes" class="planner-plain">Clear layout</button></div></div>
-<div class="planner-view-controls"><button id="view-3d" class="button small" aria-pressed="false">3D Door View</button><button id="door-toggle" class="button small" aria-expanded="false" hidden>Open bifold door</button><span id="view-hint">Edit your layout from above.</span></div><canvas id="hangar-3d" width="1500" height="990" aria-label="3D hangar preview. Use the door button to open or close the bifold door." hidden></canvas>
+<div class="planner-shell"><div class="planner-workspace"><div class="planner-topbar"><div class="planner-title-controls"><span>INNER HANGAR / 65′ × 60′</span><button id="view-3d" class="button small" aria-pressed="false">3D Door View</button></div><div class="planner-actions"><button id="share-layout" class="button small">Share layout <svg class="button-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m8 11 8-5M8 13l8 5"/><circle cx="5" cy="12" r="3"/><circle cx="19" cy="4.5" r="3"/><circle cx="19" cy="19.5" r="3"/></svg></button><button id="clear-planes" class="planner-plain">Clear layout</button></div></div>
+<div class="planner-view-controls"><button id="door-toggle" class="button small" aria-expanded="false" hidden>Open bifold door</button><span id="view-hint"></span></div><canvas id="hangar-3d" width="1500" height="990" aria-label="3D hangar preview. Use the door button to open or close the bifold door." hidden></canvas>
 <svg id="hangar-canvas" viewBox="-8 -9 81 80" aria-label="Interactive 65 by 60 foot hangar floor plan" aria-describedby="planner-help">
 <defs><pattern id="hangar-grid" width="5" height="5" patternUnits="userSpaceOnUse"><path d="M5 0H0V5" fill="none" stroke="#344b59" stroke-width=".12"/></pattern></defs>
 <rect x="0" y="0" width="65" height="60" fill="#1b3444"/><rect width="65" height="60" fill="url(#hangar-grid)"/><path d="M0 60V0H65V60" fill="none" stroke="#b2c2c9" stroke-width=".5"/><path d="M0 60H1M64 60H65" stroke="#b2c2c9" stroke-width=".7"/><path d="M1 60H64" stroke="#edc34f" stroke-width=".4" stroke-dasharray="1 1"/><path d="M1 61.5V64M1 63H64M64 61.5V64" fill="none" stroke="#6e8796" stroke-width=".15"/>
@@ -22,8 +22,8 @@
 <div class="planner-bottom"><span>TOP VIEW · 5′ GRID</span><span id="plane-count">0 aircraft</span></div><p id="planner-help">Drag to move. Use the round handle to rotate. Keyboard: arrows move 1′, R rotates 15°, Delete removes.</p>
 <div id="layout-status" role="status" aria-live="polite"></div></div>
 <aside class="aircraft-sidebar" aria-label="Aircraft selection"><p class="eyebrow">BUILD YOUR FLEET</p><h3>Choose your aircraft</h3><p class="sidebar-hint">Drag onto the plan, or select + to add.</p><div id="aircraft-catalog"></div>
-<div class="aircraft-controls"><label for="selected-plane">Selected aircraft</label><select id="selected-plane"><option value="">No aircraft selected</option></select><div class="rotation-label"><label for="plane-angle">Rotation</label><output id="angle-value">0°</output></div><input id="plane-angle" type="range" min="0" max="359" value="0" aria-label="Aircraft rotation"><div class="rotation-buttons"><button id="rotate-left" aria-label="Rotate left 15 degrees">↶ 15°</button><button id="rotate-right" aria-label="Rotate right 15 degrees">15° ↷</button><button id="remove-plane">Remove</button></div><p id="selected-status"></p></div></aside></div>
-<p class="planner-disclaimer">A floor-space illustration, not a confirmed fit. Wingspan and length are to scale; outlines are simplified. The inner-hangar restroom measures 10′ along the back wall and extends 6′ into the hangar. Red indicates a wall crossing, aircraft overlap, or restroom overlap. The 63′ door opening is illustrated centered within the 65′ width. Door height and swing, propeller sweep, offices, and entry/maneuvering clearance are not modeled. Confirm your aircraft and hangar measurements before leasing.</p>
+<div class="aircraft-controls"><label for="selected-plane">Selected aircraft</label><select id="selected-plane"><option value="">No aircraft selected</option></select><div class="rotation-label"><label for="plane-angle">Rotation</label><output id="angle-value">0°</output></div><input id="plane-angle" type="range" min="0" max="359" value="0" aria-label="Aircraft rotation"><button id="remove-plane">Remove Aircraft</button><p id="selected-status"></p></div></aside></div>
+<p class="planner-disclaimer">A floor-space illustration, not a confirmed fit. Wingspan and length are to scale; outlines are simplified. The inner-hangar restroom measures 10′ along the back wall and extends 6′ into the hangar. Red indicates overlapping fuselages, overlapping aircraft of the same model, a wall crossing, or restroom overlap. Amber indicates other overlapping aircraft footprints: verify vertical clearance. Aircraft height separation is not verified. The 63′ door opening is illustrated centered within the 65′ width. Door height and swing, propeller sweep, offices, and entry/maneuvering clearance are not modeled. Confirm your aircraft and hangar measurements before leasing.</p>
 <details class="planner-sources"><summary>Aircraft dimensions &amp; sources <span>+</span></summary><p>King Air C90B: 50′ 3″ span · 35′ 6″ long · <a href="https://aeroresourcesinc.com/uploads/200305-2003%2520Beech%2520King%2520Air%2520C90B.pdf" target="_blank" rel="noopener">Specification source</a><br>King Air 200: 54′ 6″ span · 43′ 9″ long · <a href="https://www.aopa.org/news-and-media/all-news/2020/september/pilot/turbine-quick-look-beechraft-king-air-200" target="_blank" rel="noopener">Specification source</a><br>Citation Bravo: 52′ 2″ span · 47′ 2″ long · <a href="https://www.aopa.org/news-and-media/all-news/1996/june/pilot/turbine-pilot-(3)" target="_blank" rel="noopener">Specification source</a><br>Phenom 300: 52′ 2″ span · 51′ 4″ long · <a href="https://www.embraer.com/media/b4lchr5u/phenom-300e-electronic.pdf" target="_blank" rel="noopener">Specification source</a><br>TBM 850: 41′ 7″ span · 34′ 11″ long · <a href="https://www.aopa.org/news-and-media/all-news/2020/march/flight-training-magazine/ol-ramp-appeal-tbm" target="_blank" rel="noopener">Specification source</a><br>Pilatus PC-12: 53′ 4″ span · 47′ 3″ long · <a href="https://airmen.ch/wp-content/uploads/2018/03/Pilatus-Aircraft-Ltd-PC-12NG-Factsheet.pdf" target="_blank" rel="noopener">Specification source</a><br>Cirrus Vision Jet: 38.7′ span · 30.7′ long · <a href="https://cirrusaircraft.com/wp-content/uploads/2018/06/N1WA-Spec-Sheet.pdf" target="_blank" rel="noopener">Specification source</a><br>Cessna 185F: 35′ 10″ span · 25′ 7½″ long · <a href="https://www.aopa.org/news-and-media/all-news/2015/june/pilot/f_185" target="_blank" rel="noopener">Specification source</a><br>Cessna 206 (T206H): 36′ span · 28′ 3″ long · <a href="https://cessna.txtav.com/-/media/cessna/files/product-cards/piston/turbo_stationair_hd_product_card.pdf" target="_blank" rel="noopener">Textron specifications</a><br>P-51D Mustang: 37′ span · 32′ 3″ long · <a href="https://www.nationalmuseum.af.mil/Visit/Museum-Exhibits/Fact-Sheets/Display/Article/196263/north-american-p-51d-mustang/" target="_blank" rel="noopener">US Air Force Museum specifications</a><br>King Air 200 uses B200 dimensions; PC-12 uses NG dimensions; Cessna 206 uses T206H Turbo Stationair HD dimensions. Aircraft outlines are schematic. Variants and modifications may differ.</p></details>
 </section>
 
@@ -163,13 +163,17 @@ const profiles = {
  king200: {body:[[-.5,0],[-.481,.012],[-.448,.024],[-.397,.035],[-.333,.042],[-.255,.046],[-.10,.044],[.055,.037],[.18,.025],[.30,.013],[.383,.006],[.463,.004],[.5,0]],wing:[[.038,-.21],[.176,-.207],[.208,-.182],[.485,-.17],[.498,-.16],[.5,-.111],[.482,-.102],[.18,-.044],[.036,-.041]],tail:[[.005,.365],[.155,.419],[.166,.426],[.166,.485],[.143,.488],[.007,.416]],engines:[[-.159,-.416,.021,.315],[.159,-.416,.021,.315]],props:[[-.159,-.397,.061],[.159,-.397,.061]],cockpit:-.321,windows:6},
  // Citation Bravo planform refined against the supplied top-down reference.
  bravo: {body:[[-.5,0],[-.493,.011],[-.473,.023],[-.44,.034],[-.40,.044],[-.345,.050],[-.27,.052],[-.08,.053],[.06,.052],[.13,.046],[.22,.029],[.31,.016],[.36,.010],[.43,.006],[.5,0]],wing:[[.045,-.083],[.49,-.041],[.5,-.037],[.5,.023],[.486,.03],[.083,.097],[.046,.094]],tail:[[.007,.349],[.177,.38],[.190,.387],[.193,.4],[.190,.433],[.026,.452],[.010,.428]],engines:[[-.084,.051,.024,.166],[.084,.051,.024,.166]],cockpit:-.326,windows:6},
- phenom: {body:[[-.5,0],[-.48,.012],[-.425,.028],[-.34,.044],[-.23,.048],[.16,.047],[.30,.037],[.40,.019],[.495,.006],[.5,0]],wing:[[.039,-.10],[.15,-.06],[.488,.164],[.5,.176],[.5,.217],[.474,.216],[.14,.072],[.039,.067]],tail:[[.006,.354],[.175,.417],[.191,.439],[.185,.484],[.018,.460],[.006,.446]],engines:[[-.089,.176,.025,.18],[.089,.176,.025,.18]],winglets:true,cockpit:-.33,windows:5},
+ // Phenom 300-family planform refined from Embraer's three-view brochure.
+ phenom: {body:[[-.5,0],[-.491,.009],[-.467,.018],[-.425,.029],[-.37,.040],[-.29,.049],[-.19,.051],[.10,.050],[.22,.040],[.32,.025],[.42,.013],[.49,.004],[.5,0]],wing:[[.043,-.177],[.17,-.116],[.47,.095],[.486,.101],[.493,.082],[.5,.082],[.5,.165],[.483,.174],[.465,.164],[.19,.048],[.085,.012],[.046,.065]],tail:[[.007,.326],[.042,.335],[.176,.419],[.19,.422],[.191,.455],[.176,.463],[.035,.408],[.008,.408]],engines:[[-.102,.097,.033,.189],[.102,.097,.033,.189]],winglets:true,cockpit:-.33,windows:5},
+
  // TBM 850 planform from the supplied general-arrangement drawing, nose-up.
  tbm: {body:[[-.5,0],[-.474,.013],[-.438,.022],[-.42,.040],[-.375,.050],[-.25,.053],[-.16,.058],[.035,.057],[.14,.043],[.26,.027],[.39,.013],[.48,.005],[.5,0]],wing:[[.048,-.15],[.455,-.145],[.49,-.144],[.5,-.132],[.499,-.069],[.488,-.041],[.28,-.011],[.061,.028]],tail:[[.010,.391],[.157,.389],[.170,.399],[.171,.452],[.160,.48],[.014,.468]],props:[[0,-.428,.067]],cockpit:-.17,windows:3},
  pc12: {body:[[-.5,0],[-.48,.013],[-.44,.023],[-.355,.032],[-.25,.047],[-.13,.052],[.12,.05],[.27,.032],[.40,.014],[.49,.006],[.5,0]],wing:[[.036,-.075],[.17,-.07],[.478,.047],[.5,.063],[.5,.094],[.482,.11],[.19,.090],[.032,.097]],tail:[[.007,.347],[.155,.386],[.161,.404],[.157,.455],[.014,.447],[.007,.435]],props:[[0,-.46,.090]],winglets:true,cockpit:-.27,windows:5},
  // Vision Jet proportions refined against the user's supplied top-view drawing.
  vision: {body:[[-.5,0],[-.47,.013],[-.425,.025],[-.35,.043],[-.26,.060],[-.14,.069],[-.015,.067],[.105,.047],[.215,.030],[.30,.016],[.39,.010],[.485,.006],[.5,0]],wing:[[.057,-.136],[.456,-.090],[.478,-.087],[.491,-.074],[.499,-.040],[.5,.035],[.457,.036],[.058,.052]],tail:[[.008,.313],[.172,.408],[.174,.482],[.010,.456]],dorsal:true,cockpit:-.258,windows:3},
- cessna: {body:[[-.5,0],[-.47,.014],[-.42,.027],[-.32,.040],[-.18,.048],[.015,.044],[.13,.031],[.35,.013],[.48,.005],[.5,0]],wing:[[.029,-.22],[.442,-.22],[.482,-.202],[.5,-.18],[.5,-.06],[.480,-.042],[.03,-.042]],tail:[[.006,.306],[.164,.322],[.18,.341],[.18,.387],[.165,.407],[.006,.416]],props:[[0,-.465,.098]],cockpit:-.31,windows:2,highWing:true},
+ // C185: straight high wing, compact cabin and 10 ft 10 in horizontal tail.
+ cessna: {body:[[-.5,0],[-.485,.01],[-.465,.019],[-.439,.026],[-.402,.034],[-.33,.040],[-.265,.047],[-.17,.050],[-.065,.047],[.025,.040],[.15,.027],[.30,.015],[.405,.007],[.49,.003],[.5,0]],wing:[[.037,-.23],[.445,-.23],[.474,-.222],[.489,-.21],[.499,-.191],[.5,-.070],[.495,-.05],[.481,-.039],[.458,-.038],[.037,-.038]],tail:[[.007,.314],[.125,.326],[.144,.337],[.151,.352],[.151,.390],[.144,.403],[.127,.413],[.007,.422]],props:[[0,-.458,.098]],cockpit:-.30,windows:2,highWing:true},
+
  // Cessna 206: broad high wing and cabin roof from the supplied top view.
  cessna206: {body:[[-.5,0],[-.482,.013],[-.447,.025],[-.43,.040],[-.35,.045],[-.26,.050],[-.10,.048],[-.035,.040],[.02,.045],[.09,.034],[.23,.021],[.32,.012],[.46,.004],[.5,0]],wing:[[.045,-.277],[.21,-.277],[.48,-.255],[.494,-.263],[.5,-.25],[.5,-.102],[.49,-.093],[.48,-.108],[.22,-.052],[.21,-.045],[.195,-.066],[.041,-.067]],tail:[[.012,.273],[.14,.298],[.15,.294],[.153,.308],[.153,.397],[.14,.404],[.025,.419],[.010,.367]],props:[[0,-.478,.102]],cockpit:-.29,windows:0,highWing:true},
  // P-51D planform follows the supplied nose-right drawing, rotated nose-up.
@@ -190,11 +194,11 @@ function anatomy(model) {
  add('wing',profile.wing);add('wing',mirror(profile.wing));
  add('tail',profile.tail);add('tail',mirror(profile.tail));
  if(model.id==='bravo')for(const sign of [-1,1])add('pylon',[[sign*.037,.125],[sign*.084,.15],[sign*.063,.245],[sign*.028,.263]]);
- if(model.id==='phenom')for(const sign of [-1,1])add('pylon',[[sign*.035,.23],[sign*.10,.255],[sign*.10,.302],[sign*.035,.283]]);
+ if(model.id==='phenom')for(const sign of [-1,1])add('pylon',[[sign*.033,.172],[sign*.102,.18],[sign*.102,.258],[sign*.027,.244]]);
  add('body',bodyPolygon(profile.body));
  if(profile.highWing){const wing=components.splice(0,2);components.push(...wing);}
  for(const [x,y,w,length] of profile.engines||[]){
-  if(model.id==='bravo')add('engine',[[x-w*.60,y],[x+w*.60,y],[x+w*.9,y+.009],[x+w,y+length*.30],[x+w*.9,y+length*.70],[x+w*.58,y+length*.98],[x,y+length],[x-w*.58,y+length*.98],[x-w*.9,y+length*.70],[x-w,y+length*.30],[x-w*.9,y+.009]]);
+  if(model.id==='bravo'||model.id==='phenom')add('engine',[[x-w*.60,y],[x+w*.60,y],[x+w*.9,y+.009],[x+w,y+length*.30],[x+w*.9,y+length*.70],[x+w*.58,y+length*.98],[x,y+length],[x-w*.58,y+length*.98],[x-w*.9,y+length*.70],[x-w,y+length*.30],[x-w*.9,y+.009]]);
   else if(model.id==='king200')add('engine',[[x,y],[x+w*.52,y+.018],[x+w*.72,y+.050],[x+w*.77,y+.115],[x+w,y+.157],[x+w*.92,y+.205],[x+w*.54,y+length*.93],[x,y+length],[x-w*.54,y+length*.93],[x-w*.92,y+.205],[x-w,y+.157],[x-w*.77,y+.115],[x-w*.72,y+.050],[x-w*.52,y+.018]]);
   else if(model.id==='king')add('engine',[[x,y],[x+w*.55,y+.019],[x+w*.72,y+.07],[x+w*.66,y+.13],[x+w,y+.18],[x+w*.85,y+length*.76],[x+w*.42,y+length*.94],[x,y+length],[x-w*.42,y+length*.94],[x-w*.85,y+length*.76],[x-w,y+.18],[x-w*.66,y+.13],[x-w*.72,y+.07],[x-w*.55,y+.019]]);
   else add('engine',nacelle(x,y,w,length));
@@ -226,8 +230,8 @@ function parts(model) {
 }
 // Render the exact polygon outlines used by collision tests without internal
 // triangle seams. Cockpit glazing, panel lines and windows are decorative only.
-function aircraftMarkup(model, {selected=false,conflict=false}={}) {
- const {profile,components}=anatomy(model),color=conflict?'#e78e7d':model.color;
+function aircraftMarkup(model, {selected=false,conflict=false,overlap=false}={}) {
+ const {profile,components}=anatomy(model),color=conflict?'#e78e7d':overlap?'#e9a23b':model.color;
  const outline=selected?'#edf6fa':'#203c4b';
  const polygon=({kind,points})=>`<polygon class="aircraft-${kind}" points="${points.map(p=>p.join(',')).join(' ')}" fill="${kind==='prop'?'#344d5b':color}" stroke="${outline}" stroke-width="${kind==='prop'?.055:.095}" stroke-linejoin="round"/>`;
  const x=v=>v*model.span,y=v=>v*model.length;
@@ -244,6 +248,13 @@ function aircraftMarkup(model, {selected=false,conflict=false}={}) {
    details+=`<path d="M${x(sign*.007)} ${y(-.349)}L${x(sign*.032)} ${y(-.34)}L${x(sign*.034)} ${y(-.310)}L${x(sign*.009)} ${y(-.313)}Z" fill="#243e51"/>`;
    for(let i=0;i<6;i++){const wy=-.255+i*.053,wx=.040-Math.max(0,wy+.09)*.063;details+=`<rect x="${x(sign>0?wx-.004:-wx-.004)}" y="${y(wy)}" width="${x(.008)}" height="${y(.021)}" rx=".09" fill="#294654"/>`;}
    details+=`<path d="M${x(sign*.144)} ${y(-.337)}H${x(sign*.174)}M${x(sign*.144)} ${y(-.29)}H${x(sign*.174)}M${x(sign*.159)} ${y(-.264)}V${y(-.11)}" stroke="#294654" stroke-width=".07" opacity=".6"/>`;
+  }
+ }
+ else if(model.id==='phenom'){
+  details+=`<path d="M${x(-.047)} ${y(-.265)}L${x(-.047)} ${y(-.304)}Q${x(-.043)} ${y(-.366)} 0 ${y(-.374)}Q${x(.043)} ${y(-.366)} ${x(.047)} ${y(-.304)}L${x(.047)} ${y(-.265)}L${x(.032)} ${y(-.284)}Q0 ${y(-.328)} ${x(-.032)} ${y(-.284)}Z" fill="#203c4e"/><path d="M0 ${y(-.369)}V${y(-.314)}M${x(-.038)} ${y(-.329)}L${x(-.027)} ${y(-.307)}M${x(.038)} ${y(-.329)}L${x(.027)} ${y(-.307)}" stroke="${color}" stroke-width=".095"/>`;
+  for(const sign of [-1,1]){
+   for(let i=0;i<5;i++)details+=`<rect x="${x(sign>0?.042:-.052)}" y="${y(-.208+i*.056)}" width="${x(.010)}" height="${y(.026)}" rx=".14" fill="#294654"/>`;
+   details+=`<path d="M${x(sign*.074)} ${y(.111)}Q${x(sign*.102)} ${y(.103)} ${x(sign*.131)} ${y(.111)}M${x(sign*.102)} ${y(.121)}V${y(.248)}M${x(sign*.012)} ${y(.26)}L${x(sign*.005)} ${y(.43)}" fill="none" stroke="#294654" stroke-width=".07" opacity=".6"/>`;
   }
  }
  else if(model.id==='bravo'){
@@ -266,6 +277,10 @@ function aircraftMarkup(model, {selected=false,conflict=false}={}) {
   for(const sign of [-1,1])for(const [wx,wy] of [[.061,-.17],[.063,-.096],[.059,-.022]])details+=`<ellipse cx="${x(sign*wx)}" cy="${y(wy)}" rx="${x(.008)}" ry="${y(.028)}" fill="#294654"/>`;
   details+=`<path d="M${x(-.026)} ${y(.027)}H${x(.026)}M0 ${y(.028)}V${y(.25)}" stroke="#294654" stroke-width=".085" opacity=".65"/>`;
  }
+ else if(model.id==='cessna'){
+  details+=`<path d="M${x(-.043)} ${y(-.24)}L${x(-.038)} ${y(-.295)}Q0 ${y(-.346)} ${x(.038)} ${y(-.295)}L${x(.043)} ${y(-.24)}Q0 ${y(-.264)} ${x(-.043)} ${y(-.24)}Z" fill="#243e51"/><path d="M0 ${y(-.325)}V${y(-.254)}" stroke="${color}" stroke-width=".10"/><path d="M${x(-.036)} ${y(-.225)}H${x(.036)}L${x(.034)} ${y(-.067)}Q0 ${y(-.045)} ${x(-.034)} ${y(-.067)}Z" fill="${color}" stroke="#294654" stroke-width=".06"/><path d="M${x(-.037)} ${y(-.025)}L${x(-.032)} ${y(-.045)}Q0 ${y(-.027)} ${x(.032)} ${y(-.045)}L${x(.037)} ${y(-.025)}L${x(.029)} ${y(.016)}Q0 ${y(.026)} ${x(-.029)} ${y(.016)}Z" fill="#294654"/><path d="M0 ${y(-.028)}V${y(.023)}" stroke="${color}" stroke-width=".08"/>`;
+  for(const sign of [-1,1])details+=`<path d="M${x(sign*.013)} ${y(-.411)}V${y(-.346)}L${x(sign*.034)} ${y(-.336)}M${x(sign*.041)} ${y(.047)}L${x(sign*.017)} ${y(.25)}M${x(sign*.004)} ${y(.203)}L${x(sign*.008)} ${y(.353)}L0 ${y(.48)}" fill="none" stroke="#294654" stroke-width=".065" opacity=".6"/>`;
+ }
  else if(model.id==='cessna206'){
   details+=`<path d="M${x(-.046)} ${y(-.28)}Q${x(-.043)} ${y(-.355)} 0 ${y(-.355)}Q${x(.043)} ${y(-.355)} ${x(.046)} ${y(-.28)}Q0 ${y(-.307)} ${x(-.046)} ${y(-.28)}Z" fill="#243e51"/><path d="M0 ${y(-.35)}V${y(-.298)}" stroke="${color}" stroke-width=".09"/><path d="M${x(-.033)} ${y(-.26)}Q0 ${y(-.278)} ${x(.033)} ${y(-.26)}L${x(.026)} ${y(-.106)}L0 ${y(-.085)}L${x(-.026)} ${y(-.106)}Z" fill="none" stroke="#294654" stroke-width=".065"/><path d="M${x(-.035)} ${y(-.047)}L${x(-.027)} ${y(-.079)}L0 ${y(-.062)}L${x(.027)} ${y(-.079)}L${x(.035)} ${y(-.047)}L${x(.028)} ${y(-.005)}Q0 ${y(.012)} ${x(-.028)} ${y(-.005)}Z" fill="#243e51"/><path d="M0 ${y(-.06)}V${y(.005)}" stroke="${color}" stroke-width=".09"/>`;
   for(const sign of [-1,1])details+=`<path d="M${x(sign*.014)} ${y(-.436)}V${y(-.367)}L${x(sign*.04)} ${y(-.361)}M${x(sign*.022)} ${y(.085)}L${x(sign*.008)} ${y(.302)}" fill="none" stroke="#294654" stroke-width=".07"/>`;
@@ -280,8 +295,8 @@ function aircraftMarkup(model, {selected=false,conflict=false}={}) {
  }
  for(const sign of [-1,1]){
   const w=profile.wing;const outer=w[Math.floor(w.length/2)],inner=w[w.length-1];
-  if(model.id==='mustang'){details+=`<path d="M${x(sign*.053)} ${y(-.20)}V${y(.034)}M${x(sign*.167)} ${y(-.192)}V${y(.015)}M${x(sign*.425)} ${y(-.173)}V${y(-.039)}M${x(sign*.477)} ${y(-.163)}V${y(-.077)}M${x(sign*.055)} ${y(-.022)}L${x(sign*.478)} ${y(-.077)}M${x(sign*.20)} ${y(-.022)}L${x(sign*.20)} ${y(-.05)}L${x(sign*.367)} ${y(-.083)}M${x(sign*.008)} ${y(.375)}H${x(sign*.169)}M${x(sign*.154)} ${y(.329)}V${y(.40)}" fill="none" stroke="#243e50" stroke-width=".065" opacity=".6"/>`;}else if(model.id==='cessna206'){details+=`<path d="M${x(sign*.055)} ${y(-.255)}H${x(sign*.205)}V${y(-.073)}M${x(sign*.06)} ${y(-.10)}H${x(sign*.20)}L${x(sign*.48)} ${y(-.143)}M${x(sign*.48)} ${y(-.251)}V${y(-.11)}M${x(sign*.12)} ${y(-.15)}L${x(sign*.16)} ${y(-.20)}H${x(sign*.203)}M${x(sign*.02)} ${y(.323)}L${x(sign*.136)} ${y(.334)}V${y(.385)}L${x(sign*.03)} ${y(.38)}M${x(sign*.025)} ${y(.399)}L${x(sign*.142)} ${y(.389)}" fill="none" stroke="#243e50" stroke-width=".065" opacity=".6"/><circle cx="${x(sign*.128)}" cy="${y(-.203)}" r=".3" fill="none" stroke="#243e50" stroke-width=".065"/>`;}else if(model.id==='tbm'){details+=`<path d="M${x(sign*.07)} ${y(.009)}L${x(sign*.478)} ${y(-.056)}M${x(sign*.48)} ${y(-.14)}V${y(-.055)}M${x(sign*.293)} ${y(-.106)}V${y(-.025)}M${x(sign*.395)} ${y(-.128)}V${y(-.042)}M${x(sign*.019)} ${y(.45)}L${x(sign*.156)} ${y(.46)}M${x(sign*.149)} ${y(.4)}V${y(.461)}" fill="none" stroke="#243e50" stroke-width=".065" opacity=".55"/>`;}else if(model.id==='bravo'){details+=`<path d="M${x(sign*.101)} ${y(-.078)}V${y(.079)}M${x(sign*.475)} ${y(-.04)}V${y(.029)}M${x(sign*.105)} ${y(.069)}L${x(sign*.446)} ${y(.016)}V${y(.036)}M${x(sign*.282)} ${y(.042)}V${y(.064)}M${x(sign*.012)} ${y(.412)}H${x(sign*.174)}L${x(sign*.175)} ${y(.394)}" fill="none" stroke="#243e50" stroke-width=".07" opacity=".55"/>`;}else if(model.id==='king200'){details+=`<path d="M${x(sign*.065)} ${y(-.057)}L${x(sign*.18)} ${y(-.06)}L${x(sign*.48)} ${y(-.12)}M${x(sign*.48)} ${y(-.168)}V${y(-.119)}M${x(sign*.022)} ${y(.407)}L${x(sign*.156)} ${y(.474)}" fill="none" stroke="#243e50" stroke-width=".065" opacity=".55"/>`;}else if(model.id==='king'){details+=`<path d="M${x(sign*.07)} ${y(-.079)}L${x(sign*.189)} ${y(-.079)}L${x(sign*.483)} ${y(-.175)}M${x(sign*.483)} ${y(-.229)}V${y(-.175)}M${x(sign*.017)} ${y(.399)}L${x(sign*.133)} ${y(.467)}" fill="none" stroke="#243e50" stroke-width=".07" opacity=".55"/>`;}else if(model.id==='vision'){details+=`<path d="M${x(sign*.075)} ${y(.029)}L${x(sign*.464)} ${y(.020)}M${x(sign*.464)} ${y(-.087)}L${x(sign*.466)} ${y(.034)}" fill="none" stroke="#243e50" stroke-width=".065" opacity=".5"/>`;}else details+=`<path d="M${x(sign*.11)} ${y(inner[1]-.025)}L${x(sign*.455)} ${y(outer[1]+.004)}" fill="none" stroke="#243e50" stroke-width=".065" opacity=".45"/>`;
-  if(profile.winglets)details+=`<path d="M${x(sign*.49)} ${y(outer[1]-.018)}L${x(sign*.49)} ${y(outer[1]+.024)}" stroke="#f2f7fa" stroke-width=".16"/>`;
+  if(model.id==='phenom'){details+=`<path d="M${x(sign*.066)} ${y(-.155)}L${x(sign*.192)} ${y(-.086)}L${x(sign*.461)} ${y(.105)}M${x(sign*.097)} ${y(-.006)}L${x(sign*.19)} ${y(.026)}L${x(sign*.47)} ${y(.148)}M${x(sign*.24)} ${y(.048)}L${x(sign*.253)} ${y(.076)}M${x(sign*.376)} ${y(.107)}L${x(sign*.39)} ${y(.132)}M${x(sign*.032)} ${y(.391)}L${x(sign*.177)} ${y(.446)}" fill="none" stroke="#243e50" stroke-width=".065" opacity=".55"/>`;}else if(model.id==='cessna'){details+=`<path d="M${x(sign*.051)} ${y(-.212)}H${x(sign*.451)}M${x(sign*.051)} ${y(-.075)}H${x(sign*.46)}M${x(sign*.238)} ${y(-.227)}V${y(-.04)}M${x(sign*.465)} ${y(-.22)}V${y(-.045)}M${x(sign*.064)} ${y(-.11)}H${x(sign*.209)}V${y(-.192)}H${x(sign*.064)}ZM${x(sign*.016)} ${y(.39)}L${x(sign*.139)} ${y(.378)}M${x(sign*.125)} ${y(.33)}V${y(.403)}" fill="none" stroke="#243e50" stroke-width=".06" opacity=".6"/><circle cx="${x(sign*.15)}" cy="${y(-.164)}" r=".23" fill="none" stroke="#243e50" stroke-width=".06"/>`;}else if(model.id==='mustang'){details+=`<path d="M${x(sign*.053)} ${y(-.20)}V${y(.034)}M${x(sign*.167)} ${y(-.192)}V${y(.015)}M${x(sign*.425)} ${y(-.173)}V${y(-.039)}M${x(sign*.477)} ${y(-.163)}V${y(-.077)}M${x(sign*.055)} ${y(-.022)}L${x(sign*.478)} ${y(-.077)}M${x(sign*.20)} ${y(-.022)}L${x(sign*.20)} ${y(-.05)}L${x(sign*.367)} ${y(-.083)}M${x(sign*.008)} ${y(.375)}H${x(sign*.169)}M${x(sign*.154)} ${y(.329)}V${y(.40)}" fill="none" stroke="#243e50" stroke-width=".065" opacity=".6"/>`;}else if(model.id==='cessna206'){details+=`<path d="M${x(sign*.055)} ${y(-.255)}H${x(sign*.205)}V${y(-.073)}M${x(sign*.06)} ${y(-.10)}H${x(sign*.20)}L${x(sign*.48)} ${y(-.143)}M${x(sign*.48)} ${y(-.251)}V${y(-.11)}M${x(sign*.12)} ${y(-.15)}L${x(sign*.16)} ${y(-.20)}H${x(sign*.203)}M${x(sign*.02)} ${y(.323)}L${x(sign*.136)} ${y(.334)}V${y(.385)}L${x(sign*.03)} ${y(.38)}M${x(sign*.025)} ${y(.399)}L${x(sign*.142)} ${y(.389)}" fill="none" stroke="#243e50" stroke-width=".065" opacity=".6"/><circle cx="${x(sign*.128)}" cy="${y(-.203)}" r=".3" fill="none" stroke="#243e50" stroke-width=".065"/>`;}else if(model.id==='tbm'){details+=`<path d="M${x(sign*.07)} ${y(.009)}L${x(sign*.478)} ${y(-.056)}M${x(sign*.48)} ${y(-.14)}V${y(-.055)}M${x(sign*.293)} ${y(-.106)}V${y(-.025)}M${x(sign*.395)} ${y(-.128)}V${y(-.042)}M${x(sign*.019)} ${y(.45)}L${x(sign*.156)} ${y(.46)}M${x(sign*.149)} ${y(.4)}V${y(.461)}" fill="none" stroke="#243e50" stroke-width=".065" opacity=".55"/>`;}else if(model.id==='bravo'){details+=`<path d="M${x(sign*.101)} ${y(-.078)}V${y(.079)}M${x(sign*.475)} ${y(-.04)}V${y(.029)}M${x(sign*.105)} ${y(.069)}L${x(sign*.446)} ${y(.016)}V${y(.036)}M${x(sign*.282)} ${y(.042)}V${y(.064)}M${x(sign*.012)} ${y(.412)}H${x(sign*.174)}L${x(sign*.175)} ${y(.394)}" fill="none" stroke="#243e50" stroke-width=".07" opacity=".55"/>`;}else if(model.id==='king200'){details+=`<path d="M${x(sign*.065)} ${y(-.057)}L${x(sign*.18)} ${y(-.06)}L${x(sign*.48)} ${y(-.12)}M${x(sign*.48)} ${y(-.168)}V${y(-.119)}M${x(sign*.022)} ${y(.407)}L${x(sign*.156)} ${y(.474)}" fill="none" stroke="#243e50" stroke-width=".065" opacity=".55"/>`;}else if(model.id==='king'){details+=`<path d="M${x(sign*.07)} ${y(-.079)}L${x(sign*.189)} ${y(-.079)}L${x(sign*.483)} ${y(-.175)}M${x(sign*.483)} ${y(-.229)}V${y(-.175)}M${x(sign*.017)} ${y(.399)}L${x(sign*.133)} ${y(.467)}" fill="none" stroke="#243e50" stroke-width=".07" opacity=".55"/>`;}else if(model.id==='vision'){details+=`<path d="M${x(sign*.075)} ${y(.029)}L${x(sign*.464)} ${y(.020)}M${x(sign*.464)} ${y(-.087)}L${x(sign*.466)} ${y(.034)}" fill="none" stroke="#243e50" stroke-width=".065" opacity=".5"/>`;}else details+=`<path d="M${x(sign*.11)} ${y(inner[1]-.025)}L${x(sign*.455)} ${y(outer[1]+.004)}" fill="none" stroke="#243e50" stroke-width=".065" opacity=".45"/>`;
+  if(model.id==='phenom')details+=`<path d="M${x(sign*.494)} ${y(.085)}V${y(.158)}" stroke="#f2f7fa" stroke-width=".15"/>`;else if(profile.winglets)details+=`<path d="M${x(sign*.49)} ${y(outer[1]-.018)}L${x(sign*.49)} ${y(outer[1]+.024)}" stroke="#f2f7fa" stroke-width=".16"/>`;
  }
  for(const [ex,ey,ew,el] of profile.engines||[])details+=`<path d="M${x(ex-ew*.65)} ${y(ey+el*.83)}H${x(ex+ew*.65)}" stroke="#243e50" stroke-width=".16" opacity=".7"/>`;
  details+=`<path d="M0 ${y(.34)}V${y(.482)}" stroke="#294654" stroke-width=".12" opacity=".6"/>`;
@@ -296,8 +311,21 @@ function overlaps(a,b) {
 // Restroom footprint: 10 feet along the rear wall, 6 feet into the hangar.
 const restroom = Object.freeze({x:0,y:0,width:10,depth:6});
 const restroomPolygon = [[0,0],[restroom.width,0],[restroom.width,restroom.depth],[0,restroom.depth]];
+const bodyPartsCache = new WeakMap();
+function worldBody(plane) {
+ if(!bodyPartsCache.has(plane.model))bodyPartsCache.set(plane.model,anatomy(plane.model).components.filter(c=>c.kind==='body').flatMap(c=>triangulate(c.points)));
+ const angle=plane.angle*Math.PI/180,c=Math.cos(angle),s=Math.sin(angle);
+ return bodyPartsCache.get(plane.model).map(p=>p.map(([x,y])=>[plane.x+x*c-y*s,plane.y+x*s+y*c]));
+}
 function assess(planes) {
- const shapes=planes.map(worldParts);return planes.map((plane,i)=>({obstruction:shapes[i].some(part=>overlaps(part,restroomPolygon)),outside:shapes[i].flat().some(([x,y])=>x<0||x>65||y<0||y>60),overlap:shapes.some((other,j)=>i!==j&&shapes[i].some(a=>other.some(b=>overlaps(a,b))))}));
+ const shapes=planes.map(worldParts),bodies=planes.map(worldBody);
+ const checks=shapes.map(shape=>({obstruction:shape.some(part=>overlaps(part,restroomPolygon)),outside:shape.flat().some(([x,y])=>x<0||x>65||y<0||y>60),overlap:false,fuselageOverlap:false,sameModelOverlap:false}));
+ for(let i=0;i<planes.length;i++)for(let j=i+1;j<planes.length;j++){
+  if(!shapes[i].some(a=>shapes[j].some(b=>overlaps(a,b))))continue;
+  const fuselage=bodies[i].some(a=>bodies[j].some(b=>overlaps(a,b))),sameModel=planes[i].model.id===planes[j].model.id;
+  for(const k of [i,j]){checks[k].overlap=true;checks[k].fuselageOverlap ||= fuselage;checks[k].sameModelOverlap ||= sameModel;}
+ }
+ return checks;
 }
 
 globalThis.KBOX5Geometry = Object.freeze({models,parts,worldParts,overlaps,assess,anatomy,aircraftMarkup,restroom});
@@ -321,6 +349,72 @@ function decode(value,models){
 }
 function link(planes,base){const url=new URL(base);url.searchParams.set('layout',encode(planes));url.hash='planner';return url.href;}
 globalThis.KBOX5Share=Object.freeze({title,encode,decode,link});
+})();
+
+</script>
+<script data-source="aircraft-3d.js">
+(() => {
+'use strict';
+// Original, illustrative meshes. References and variant limitations: docs/aircraft-3d-references.md.
+// Side stations: normalized length, centerline height (ft), vertical half-depth (ft).
+const specs={
+ king:{side:[[-.5,4.8,0],[-.42,4.9,1.1],[-.31,5.7,2.2],[-.21,5.9,2.5],[.08,5.9,2.5],[.28,6.4,1.4],[.5,7.3,0]],wing:3.8,dihedral:.055,tail:7.8,fin:[[.21,6.5],[.35,14.3],[.45,14.3],[.49,7.1]],engineZ:5.1,blades:4,propR:3.75,track:7.5,mainY:-.035,noseY:-.40,wheel:.83,windows:4,glass:[-.35,-.27],windowStart:-.20},
+ king200:{side:[[-.5,4.5,0],[-.43,4.8,1.2],[-.33,5.8,2.2],[-.24,6,2.6],[.12,6,2.5],[.31,6.9,1.2],[.5,7.6,0]],wing:3.6,dihedral:.05,tail:14.6,fin:[[.24,6.5],[.37,15],[.46,15],[.49,7.5]],engineZ:5.2,blades:4,propR:3.88,track:8.4,mainY:-.06,noseY:-.43,wheel:.85,windows:6,glass:[-.37,-.29],windowStart:-.22},
+ bravo:{side:[[-.5,4.2,0],[-.43,4.3,1],[-.35,5.6,2.3],[-.24,5.8,2.65],[.17,5.8,2.6],[.32,6.7,1.6],[.5,7.6,0]],wing:3,dihedral:.05,tail:10.2,fin:[[.22,6.7],[.38,15],[.45,15],[.49,7.5]],engineZ:7.2,jet:true,track:6.2,mainY:.03,noseY:-.37,wheel:.76,windows:6,glass:[-.365,-.29],windowStart:-.20},
+ phenom:{side:[[-.5,3.8,0],[-.43,4.2,1],[-.32,5.3,2.6],[-.22,5.6,2.9],[.16,5.6,2.8],[.32,6.8,1.6],[.5,8.2,0]],wing:2.8,dihedral:.055,tail:16.4,fin:[[.22,6.5],[.38,16.75],[.46,16.75],[.49,8]],engineZ:7.4,jet:true,winglets:3.1,track:6.2,mainY:.08,noseY:-.37,wheel:.8,windows:5,glass:[-.37,-.285],windowStart:-.20},
+ tbm:{side:[[-.5,5.2,0],[-.42,5.1,1.15],[-.30,5.1,1.5],[-.19,5.9,2.5],[.10,5.9,2.5],[.30,6.6,1.1],[.5,7.1,0]],wing:3.5,dihedral:.07,tail:7.5,fin:[[.15,7],[.37,14.3],[.45,14.3],[.49,7.1]],engineZ:5.2,blades:4,propR:3.8,track:6.35,mainY:.025,noseY:-.35,wheel:.7,windows:3,glass:[-.26,-.17],windowStart:-.12},
+ pc12:{side:[[-.5,5.4,0],[-.42,5.4,1.3],[-.32,5.8,1.7],[-.24,6.3,2.6],[-.12,6.3,2.85],[.16,6.3,2.8],[.32,7.6,1.2],[.5,8.2,0]],wing:3.4,dihedral:.07,tail:13.6,fin:[[.20,7.8],[.37,14],[.45,14],[.49,8.1]],engineZ:5.4,blades:5,propR:4.375,winglets:1.1,track:7.4,mainY:.07,noseY:-.30,wheel:.85,windows:5,glass:[-.30,-.22],windowStart:-.15},
+ vision:{side:[[-.5,3.3,0],[-.40,3.4,1],[-.29,4.2,2.2],[-.14,4.4,2.7],[.04,4.4,2.5],[.23,4.9,1.2],[.5,5.1,0]],wing:2.5,dihedral:.055,tail:5.15,vtail:true,dorsal:true,track:4.6,mainY:.08,noseY:-.31,wheel:.55,windows:3,glass:[-.33,-.20],windowStart:-.13},
+ cessna:{side:[[-.5,5.7,0],[-.43,5.6,1.1],[-.33,5.5,1.4],[-.21,5.5,2],[.015,4.9,1.8],[.20,3.5,1],[.5,1.8,0]],wing:7.4,dihedral:.018,tail:2.25,fin:[[.23,3],[.35,7.9],[.43,7.9],[.49,2]],engineZ:5.7,blades:3,propR:3.35,track:4.3,mainY:-.20,wheel:.88,tailwheel:true,struts:true,windows:2,glass:[-.32,-.23],windowStart:-.17},
+ cessna206:{side:[[-.5,4.4,0],[-.43,4.4,1.05],[-.33,4.5,1.5],[-.24,5.2,2],[.05,5.2,2],[.25,4.5,1.1],[.5,4.5,0]],wing:7.1,dihedral:.018,tail:4.65,fin:[[.23,5],[.37,9.3],[.45,9.3],[.49,4.5]],engineZ:4.4,blades:3,propR:3,track:4.6,mainY:-.03,noseY:-.36,wheel:.72,struts:true,windows:3,glass:[-.35,-.27],windowStart:-.20},
+ mustang:{side:[[-.5,6,0],[-.44,5.9,1.25],[-.29,5.7,1.7],[-.16,5.4,1.65],[.05,4.8,1.7],[.24,3.5,.9],[.5,2.1,0]],wing:3.6,dihedral:.09,tail:2.65,fin:[[.20,3.5],[.36,11],[.43,10.8],[.49,2.5]],engineZ:6,blades:4,propR:5.55,track:5.2,mainY:-.16,wheel:1.05,tailwheel:true,canopy:true,windows:0,glass:[-.18,.06]}
+};
+const cache=new WeakMap(),pi=Math.PI;
+function interpolate(stations,t){let i=1;while(i<stations.length-1&&t>stations[i][0])i++;const a=stations[i-1],b=stations[i],f=Math.max(0,Math.min(1,(t-a[0])/(b[0]-a[0])));return a.slice(1).map((v,j)=>v+(b[j+1]-v)*f);}
+function mesh(model){
+ if(cache.has(model))return cache.get(model);
+ const {profile,components}=globalThis.KBOX5Geometry.anatomy(model),q=specs[model.id],faces=[];
+ const white=model.id==='mustang'?'#c4cdd3':'#e8edf0',dark='#233d50',trim=model.color;
+ const shade=(hex,f)=>'#'+hex.slice(1).match(/../g).map(v=>Math.max(0,Math.min(255,Math.round(parseInt(v,16)*f))).toString(16).padStart(2,'0')).join('');
+ function face(points,color,kind){if(points.some(p=>!p.every(Number.isFinite)))throw Error('Invalid mesh');faces.push({points,color,kind});}
+ function skin(rings,color,kind){for(let j=1;j<rings.length;j++)for(let i=0;i<rings[j].length;i++){const k=(i+1)%rings[j].length,f=.77+.23*Math.sin((i+.5)*2*pi/rings[j].length);face([rings[j-1][i],rings[j][i],rings[j][k],rings[j-1][k]],shade(color,f),kind);}}
+ function loft(x,y,z,rx,rz,length,color,kind,cap=true){const rings=[0,.08,.22,.7,.93,1].map((f,j)=>Array.from({length:20},(_,i)=>{const a=i*pi/10,r=[.7,.94,1,.97,.77,.6][j];return [x+rx*r*Math.cos(a),y+length*f,z+rz*r*Math.sin(a)];}));skin(rings,color,kind);if(cap){face(rings[0],dark,kind);face(rings.at(-1),dark,kind);}return rings;}
+ function tube(a,b,r,color,kind){const d=b.map((v,i)=>v-a[i]),len=Math.hypot(...d),n=d.map(v=>v/len),ref=Math.abs(n[2])<.9?[0,0,1]:[0,1,0],u=[n[1]*ref[2]-n[2]*ref[1],n[2]*ref[0]-n[0]*ref[2],n[0]*ref[1]-n[1]*ref[0]],ul=Math.hypot(...u);u.forEach((v,i)=>u[i]/=ul);const v=[n[1]*u[2]-n[2]*u[1],n[2]*u[0]-n[0]*u[2],n[0]*u[1]-n[1]*u[0]];skin([a,b].map(p=>Array.from({length:8},(_,i)=>p.map((c,j)=>c+r*(u[j]*Math.cos(i*pi/4)+v[j]*Math.sin(i*pi/4))))),color,kind);}
+ function plate(points,thick,color,kind){const a=points.map(([x,y,z])=>[x,y,z+thick/2]),b=points.map(([x,y,z])=>[x,y,z-thick/2]);face(a,color,kind);face([...b].reverse(),shade(color,.67),kind);for(let i=0;i<a.length;i++){const j=(i+1)%a.length;face([a[i],a[j],b[j],b[i]],shade(color,.8),kind);}}
+ function bodyAt(t,a,extra=0){const [w]=interpolate(profile.body,t),[z,rz]=interpolate(q.side,t);return [(w*model.span+extra)*Math.cos(a),t*model.length,z+(rz+extra)*Math.sin(a)];}
+ // Glazing and stripes are materials on the fuselage mesh itself. Floating
+ // overlay quads cut through a curved hull and caused white gaps as it rotated.
+ const noseStart=profile.props?.length===1?-.43:-.5;
+ const windowRanges=Array.from({length:q.windows},(_,i)=>[q.windowStart+i*.059,q.windowStart+i*.059+.026]);
+ const stations=[...new Set([...Array.from({length:57},(_,i)=>noseStart+(.5-noseStart)*i/56),...profile.body.map(p=>p[0]),...q.side.map(p=>p[0]),...q.glass,...windowRanges.flat(),-.33,.264].filter(t=>t>=noseStart&&t<=.5))].sort((a,b)=>a-b);
+ const angles=[...new Set([...Array.from({length:33},(_,i)=>i*pi/16),.10,.18,.65,pi-.65,pi-.18,pi-.10,pi/2-.025,pi/2+.025,.04,2*pi-.04,pi-.04,pi+.04])].sort((a,b)=>a-b);
+ const rings=stations.map(t=>angles.slice(0,-1).map(a=>bodyAt(t,a)));
+ for(let j=1;j<stations.length;j++)for(let i=0;i<angles.length-1;i++){
+  const t=(stations[j-1]+stations[j])/2,a=(angles[i]+angles[i+1])/2;
+  const cockpit=!q.canopy&&t>q.glass[0]&&t<q.glass[1]&&a>.18&&a<pi-.18&&Math.abs(a-pi/2)>.025;
+  const sideWindow=windowRanges.some(([from,to])=>t>from&&t<to)&&((a>.10&&a<.65)||(a>pi-.65&&a<pi-.10));
+  const belt=t>-.33&&t<.264&&(a<.04||a>2*pi-.04||Math.abs(a-pi)<.04);
+  const color=cockpit||sideWindow?dark:belt?trim:shade(white,.77+.23*Math.sin(a)),kind=cockpit?'cockpit':sideWindow?'window':belt?'livery':'fuselage';
+  const k=(i+1)%rings[j].length;
+  face([rings[j-1][i],rings[j][i],rings[j][k]],color,kind);
+  face([rings[j-1][i],rings[j][k],rings[j-1][k]],color,kind);
+ }
+ if(profile.props?.length===1){const [w]=interpolate(profile.body,noseStart),[,rz]=interpolate(q.side,noseStart);const front=angles.slice(0,-1).map(a=>[w*model.span*.72*Math.cos(a),-.455*model.length+.04,q.engineZ+rz*.72*Math.sin(a)]);skin([front,rings[0]],white,'cowling');face(front,white,'cowling');}
+ if(q.canopy){const cr=Array.from({length:15},(_,j)=>{const t=q.glass[0]+(q.glass[1]-q.glass[0])*j/14,f=Math.sin(j*pi/14),[z,rz]=interpolate(q.side,t);return Array.from({length:13},(_,i)=>{const a=i*pi/12;return [1.1*f*Math.cos(a),t*model.length,z+rz*.8+1.5*f*Math.sin(a)];});});skin(cr,dark,'canopy');}
+ for(const c of components){if(c.kind!=='wing'&&c.kind!=='tail')continue;const tail=c.kind==='tail';const pts=c.points.map(([x,y])=>[x,y,tail?q.tail+(q.vtail?Math.abs(x)*.84:Math.abs(x)*.015):q.wing+Math.abs(x)*q.dihedral]);plate(pts,tail?.10:.22,white,tail?'tailplane':'wing');}
+ if(q.fin){const pts=q.fin.map(([y,z])=>[.085,y*model.length,z]);face(pts,trim,'fin');face(pts.map(([x,y,z])=>[-x,y,z]).reverse(),shade(trim,.78),'fin');for(let i=0;i<pts.length;i++){const a=pts[i],b=pts[(i+1)%pts.length];face([a,b,[-b[0],b[1],b[2]],[-a[0],a[1],a[2]]],white,'fin');}}
+ if(q.winglets)for(const sign of [-1,1]){const x=sign*model.span*.485,y=model.length*profile.wing[Math.floor(profile.wing.length/2)][1],z=q.wing+Math.abs(x)*q.dihedral;plate([[x,y-.4,z],[x+sign*.3,y+.5,z+q.winglets],[x+sign*.4,y+1.3,z+q.winglets],[x,y+1.6,z]],.09,trim,'winglet');}
+ for(const [x,y,w,l] of profile.engines||[]){const rx=q.jet?w*model.span*1.12:w*model.span;loft(x*model.span,y*model.length,q.engineZ,rx,rx*(q.jet?1:1.1),l*model.length,white,'nacelle');if(q.jet){const ey=y*model.length;loft(x*model.span,ey-.02,q.engineZ,rx*.75,rx*.75,.18,'#677b87','intake');}else loft(x*model.span,y*model.length-.35,q.engineZ,rx*.38,rx*.38,.6,trim,'spinner');}
+ if(q.dorsal){loft(0,-.015*model.length,7.2,1.05,1.1,model.length*.25,white,'dorsal-engine');loft(0,-.015*model.length-.04,7.2,.78,.83,.2,dark,'intake');}
+ for(const [px,py] of profile.props||[]){const x=px*model.span,y=(profile.props.length===1?-.455:py)*model.length,z=q.engineZ,r=q.propR;for(let i=0;i<q.blades;i++){const a=i*2*pi/q.blades+.3;const p=(radius,offset)=>[x+radius*Math.sin(a)+offset*Math.cos(a),y,z+radius*Math.cos(a)-offset*Math.sin(a)];face([p(.3,-.10),p(r*.75,-.20),p(r,-.09),p(r,.09),p(r*.6,.22),p(.3,.12)],'#283843','propeller');face([p(r*.89,-.11),p(r,-.09),p(r,.09),p(r*.89,.14)],trim,'propeller-tip');}const hub=Array.from({length:20},(_,i)=>[x+.4*Math.cos(i*pi/10),y+.08,z+.4*Math.sin(i*pi/10)]);for(let i=0;i<20;i++)face([[x,y-.65,z],hub[i],hub[(i+1)%20]],shade(white,.85+.15*Math.sin(i*pi/10)),'spinner');}
+ function wheel(x,y,r,attachX,attachZ){const width=r*.55,rings=[x-width/2,x+width/2].map(v=>Array.from({length:16},(_,i)=>[v,y+r*Math.cos(i*pi/8),r+r*Math.sin(i*pi/8)]));skin(rings,'#263039','wheel');face(rings[0],'#263039','wheel');face(rings[1],'#263039','wheel');for(const side of [-1,1])face(Array.from({length:16},(_,i)=>[x+side*(width/2+.01),y+r*.4*Math.cos(i*pi/8),r+r*.4*Math.sin(i*pi/8)]),'#a6b0b5','hub');tube([x,y,r],[attachX,y,attachZ],.10,'#7b8a93','gear');}
+ for(const sign of [-1,1])wheel(sign*q.track,q.mainY*model.length,q.wheel,sign*(q.struts?1.3:q.track*.9),q.wing);
+ if(q.tailwheel)wheel(0,model.length*.44,.32,0,1.8);else wheel(0,q.noseY*model.length,q.wheel*.72,0,interpolate(q.side,q.noseY)[0]-1);
+ if(q.struts)for(const sign of [-1,1])tube([sign*1.4,-.04*model.length,3],[sign*model.span*.30,-.12*model.length,q.wing+model.span*.30*q.dihedral],.09,white,'wing-strut');
+ if(q.canopy)loft(0,model.length*.02,3,1, .6,model.length*.17,'#9aaab4','radiator');
+ const result=Object.freeze(faces);cache.set(model,result);return result;
+}
+globalThis.KBOX5Aircraft3D=Object.freeze({mesh,specs});
 })();
 
 </script>
@@ -353,26 +447,12 @@ function draw(){
  for(let y=0;y<=60;y+=15){box(0,y,0,.35,.35,20,'#7e919e');box(64.65,y,0,.35,.35,20,'#7e919e');face([[0,y,20],[65,y,20],[65,y+.25,20],[0,y+.25,20]],'#708590');}
  box(restroom.x,restroom.y,0,restroom.width,restroom.depth,9,'#e2e6df');box(6.3,6.02,0,3,.06,7,'#677f89');box(8.75,6.12,3,.13,.1,.13,'#edc34f');
  planes.forEach(plane=>{
-  const {profile,components}=anatomy(plane.model),m=plane.model,a=plane.angle*Math.PI/180,c=Math.cos(a),s=Math.sin(a);
-  const transform=(x,y,z)=>[plane.x+x*c-y*s,plane.y+x*s+y*c,z];
-  const zBody=m.shape==='twin'?4.5:3.2;
-  // Loft a fuselage around the same stations used by the floor-plan silhouette.
-  const rings=profile.body.map(([y,w])=>Array.from({length:10},(_,i)=>{const t=i*Math.PI/5;return transform(w*m.span*Math.cos(t),y*m.length,zBody+Math.sin(t)*Math.min(w*m.span,2.3));}));
-  for(let j=1;j<rings.length;j++)for(let i=0;i<10;i++)face([rings[j-1][i],rings[j][i],rings[j][(i+1)%10],rings[j-1][(i+1)%10]],i<5?m.color:'#788894');
-  for(const comp of components){if(comp.kind==='body'||comp.kind==='prop'||(comp.kind==='engine'&&profile.engines))continue;const z=comp.kind==='tail'?zBody+1:profile.highWing?zBody+1.3:zBody-.6;
-   const upper=comp.points.map(([x,y])=>transform(x,y,z+.13)),lower=comp.points.map(([x,y])=>transform(x,y,z-.13));face(upper,m.color);face(lower,'#778892');
-   for(let i=0;i<upper.length;i++){const j=(i+1)%upper.length;face([upper[i],upper[j],lower[j],lower[i]],m.color);}
+  const a=plane.angle*Math.PI/180,c=Math.cos(a),s=Math.sin(a);
+  for(const part of globalThis.KBOX5Aircraft3D.mesh(plane.model)){
+   const points=part.points.map(([x,y,z])=>[plane.x+x*c-y*s,plane.y+x*s+y*c,z]);
+   // Small surface quads are shaded without wireframe seams.
+   face(points,part.color,null);
   }
-  for(const [ex,ey,ew,el] of profile.engines||[]){
-   const rings=[0,.12,.8,1].map((f,j)=>Array.from({length:8},(_,i)=>{const t=i*Math.PI/4,r=ew*m.span*([.7,1,.85,.3][j]);return transform(ex*m.span+r*Math.cos(t),(ey+el*f)*m.length,zBody+r*Math.sin(t));}));
-   for(let j=1;j<rings.length;j++)for(let i=0;i<8;i++)face([rings[j-1][i],rings[j][i],rings[j][(i+1)%8],rings[j-1][(i+1)%8]],m.color);
-  }
-  for(const [px,py,pr] of profile.props||[]){const x=px*m.span,y=py*m.length,r=pr*m.span;face([transform(x-.10,y,zBody-r),transform(x+.10,y,zBody-r),transform(x+.10,y,zBody+r),transform(x-.10,y,zBody+r)],'#354955');face([transform(x-r,y,zBody-.10),transform(x+r,y,zBody-.10),transform(x+r,y,zBody+.10),transform(x-r,y,zBody+.10)],'#354955');}
-  // Cockpit glazing, upright fin and fixed landing gear add readable front-view volume.
-  const cockpitY=(profile.cockpit||-.25)*m.length,w=m.span*.031;
-  face([transform(-w,cockpitY-1,zBody+.8),transform(w,cockpitY-1,zBody+.8),transform(w*.8,cockpitY+1,zBody+2),transform(-w*.8,cockpitY+1,zBody+2)],'#243f52');
-  face([transform(0,m.length*.27,zBody),transform(0,m.length*.40,zBody+4),transform(0,m.length*.48,zBody+.2)],m.color);
-  for(const [x,y] of [[-m.span*.06,0],[m.span*.06,0],[0,-m.length*.3]]){const p=transform(x,y,0);box(p[0]-.3,p[1]-.5,.15,.6,1,1,'#273945');face([transform(x,y,1),transform(x+.1,y,1),transform(x+.1,y,zBody),transform(x,y,zBody)],'#566974');}
  });
  // Two equal leaves: fixed upper hinge, outward knee, lower edge rising vertically.
  const angle=door*Math.PI*.47,kneeY=60+height/2*Math.sin(angle),kneeZ=height-height/2*Math.cos(angle),bottomZ=height-height*Math.cos(angle);
@@ -380,7 +460,7 @@ function draw(){
  face(top,'#c6d0d4','#657c8a',true);face(bottom,'#b3c2ca','#657c8a',true);
  for(let x=2;x<64;x+=2){face([[x,60.02,height],[x+.035,60.02,height],[x+.035,kneeY+.02,kneeZ],[x,kneeY+.02,kneeZ]],'#8fa2ad','#8fa2ad');face([[x,kneeY+.02,kneeZ],[x+.035,kneeY+.02,kneeZ],[x+.035,60.02,bottomZ],[x,60.02,bottomZ]],'#8fa2ad','#8fa2ad');}
  box(0,60,0,1,.6,20,'#dce1e1');box(64,60,0,1,.6,20,'#dce1e1');box(0,60,18,65,.6,2,'#e7e9e4');
- faces.sort((a,b)=>b.depth-a.depth).forEach(f=>{ctx.beginPath();f.p.forEach((p,i)=>i?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1]));ctx.closePath();ctx.fillStyle=f.color;ctx.fill();ctx.strokeStyle=f.stroke;ctx.lineWidth=.45;ctx.stroke();if(f.doorPart)doorFaces.push(f.p);});
+ faces.sort((a,b)=>b.depth-a.depth).forEach(f=>{ctx.beginPath();f.p.forEach((p,i)=>i?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1]));ctx.closePath();ctx.fillStyle=f.color;ctx.fill();ctx.strokeStyle=f.stroke||f.color;ctx.lineWidth=f.stroke?.45:.55;ctx.lineJoin="round";ctx.stroke();if(f.doorPart)doorFaces.push(f.p);});
  const label=project([5,6.15,8]);if(door>.8){ctx.fillStyle='#304b5b';ctx.font='bold 11px Arial';ctx.textAlign='center';ctx.fillText('RESTROOM',label[0],label[1]);}
  ctx.textAlign='left';ctx.fillStyle='#203848';ctx.font='14px Arial';ctx.fillText('63′ BIFOLD DOOR  /  65′ × 60′ HANGAR',24,625);
 }
@@ -413,7 +493,7 @@ $('view-3d').addEventListener('click',()=>{
   globalThis.KBOX5View3D.leave(()=>{view3d=false;svg.hidden=false;$('hangar-3d').hidden=true;
    document.querySelector('.aircraft-sidebar').inert=false;$('clear-planes').disabled=false;
    button.disabled=false;button.textContent='3D Door View';button.setAttribute('aria-pressed','false');
-   $('view-hint').textContent='Edit your layout from above.';$('planner-help').hidden=false;render();
+   $('view-hint').textContent='';$('planner-help').hidden=false;render();
   });
  }
 });
@@ -427,14 +507,14 @@ card.addEventListener('pointercancel',()=>{cardDrag?.ghost?.remove();cardDrag=nu
 function point(event){const p=new DOMPoint(event.clientX,event.clientY);return p.matrixTransform(svg.getScreenCTM().inverse());}
 function add(model,x=32.5,y=30){if(view3d)return;if(planes.length>=12){$('layout-status').textContent='Up to 12 aircraft can be compared at once. Remove one to add another.';return;}const plane={id:++serial,model,x,y,angle:180};planes.push(plane);selected=plane.id;render();}
 function current(){return planes.find(p=>p.id===selected);}
-function render(){const checks=assess(planes);layer.innerHTML=planes.map((plane,i)=>{const active=plane.id===selected,bad=checks[i].outside||checks[i].overlap||checks[i].obstruction;return `<g class="placed-aircraft${active?' selected':''}" data-plane="${plane.id}" transform="translate(${plane.x} ${plane.y}) rotate(${plane.angle})" tabindex="0" role="button" aria-label="${plane.model.name} ${plane.id}, ${Math.round(plane.angle)} degrees${bad?', layout conflict':''}">${aircraftMarkup(plane.model,{selected:active,conflict:bad})}<text y="${plane.model.length*.13}" text-anchor="middle" font-size="1.2" font-weight="600" fill="#142c3c" pointer-events="none">${plane.id}</text>${active?`<path d="M0 ${-plane.model.length/2}v-3" stroke="#fff" stroke-width=".18"/><circle class="rotate-handle" data-rotate="true" cy="${-plane.model.length/2-3}" r="1.25" fill="#fff" stroke="#edc34f" stroke-width=".35"/>`:''}</g>`;}).join('');
+function render(){const checks=assess(planes);layer.innerHTML=planes.map((plane,i)=>{const active=plane.id===selected,bad=checks[i].outside||checks[i].obstruction||checks[i].fuselageOverlap||checks[i].sameModelOverlap;return `<g class="placed-aircraft${active?' selected':''}" data-plane="${plane.id}" transform="translate(${plane.x} ${plane.y}) rotate(${plane.angle})" tabindex="0" role="button" aria-label="${plane.model.name} ${plane.id}, ${Math.round(plane.angle)} degrees${bad?', layout conflict':checks[i].overlap?', overlapping footprints; verify vertical clearance':''}">${aircraftMarkup(plane.model,{selected:active,conflict:bad,overlap:checks[i].overlap})}<text y="${plane.model.length*.13}" text-anchor="middle" font-size="1.2" font-weight="600" fill="#142c3c" pointer-events="none">${plane.id}</text>${active?`<path d="M0 ${-plane.model.length/2}v-3" stroke="#fff" stroke-width=".18"/><circle class="rotate-handle" data-rotate="true" cy="${-plane.model.length/2-3}" r="1.25" fill="#fff" stroke="#edc34f" stroke-width=".35"/>`:''}</g>`;}).join('');
 $('planner-empty').style.display=planes.length?'none':'';$('plane-count').textContent=`${planes.length} aircraft`;
 const select=$('selected-plane');select.replaceChildren();if(!planes.length)select.add(new Option('No aircraft selected',''));for(const p of planes)select.add(new Option(`${p.id}. ${p.model.name}`,String(p.id)));select.value=String(selected??'');
-const p=current();for(const id of ['plane-angle','rotate-left','rotate-right','remove-plane'])$(id).disabled=!p;
+const p=current();for(const id of ['plane-angle','remove-plane'])$(id).disabled=!p;
 $('plane-angle').value=p?Math.round(p.angle):0;$('angle-value').value=`${p?Math.round(p.angle):0}°`;
-const c=p?checks[planes.indexOf(p)]:null;$('selected-status').textContent=!p?'Select an aircraft to move or rotate it.':`${p.model.dimensions}${c.outside?' · Crosses hangar boundary':''}${c.overlap?' · Overlaps another footprint':''}${c.obstruction?' · Overlaps restroom':''}`;
-const outside=checks.filter(c=>c.outside).length,overlap=checks.filter(c=>c.overlap).length,obstruction=checks.filter(c=>c.obstruction).length;
-$('layout-status').classList.toggle('has-conflict',outside+overlap+obstruction>0);$('layout-status').textContent=!planes.length?'Your hangar is ready. Add an aircraft from the selection.':outside||overlap||obstruction?`${outside?`${outside} aircraft crossing the boundary. `:''}${overlap?`${overlap} aircraft with overlapping footprints. `:''}${obstruction?`${obstruction} aircraft overlapping the restroom.`:''}`:'All illustrated footprints are inside the hangar without overlap.';
+const c=p?checks[planes.indexOf(p)]:null;$('selected-status').textContent=!p?'Select an aircraft to move or rotate it.':`${p.model.dimensions}${c.outside?' · Crosses hangar boundary':''}${c.fuselageOverlap?' · Fuselages overlap':c.sameModelOverlap?' · Same-model aircraft overlap':c.overlap?' · Overlapping footprints — verify vertical clearance':''}${c.obstruction?' · Overlaps restroom':''}`;
+const outside=checks.filter(c=>c.outside).length,collision=checks.filter(c=>c.fuselageOverlap||c.sameModelOverlap).length,overlap=checks.filter(c=>c.overlap&&!c.fuselageOverlap&&!c.sameModelOverlap).length,obstruction=checks.filter(c=>c.obstruction).length;
+$('layout-status').classList.toggle('has-conflict',outside+obstruction+collision>0);$('layout-status').classList.toggle('has-overlap',overlap>0&&outside+obstruction+collision===0);$('layout-status').textContent=!planes.length?'Your hangar is ready. Add an aircraft from the selection.':outside||overlap||obstruction||collision?`${outside?`${outside} aircraft crossing the boundary. `:''}${collision?`${collision} aircraft with fuselage or same-model overlap. `:''}${overlap?`${overlap} aircraft with overlapping footprints. Verify vertical clearance; overlap is not a confirmed fit. `:''}${obstruction?`${obstruction} aircraft overlapping the restroom.`:''}`:'All illustrated footprints are inside the hangar without overlap.';
 }
 svg.addEventListener('dragover',e=>{e.preventDefault();e.dataTransfer.dropEffect='copy';});svg.addEventListener('drop',e=>{e.preventDefault();const model=models.find(m=>m.id===e.dataTransfer.getData('text/plain'));if(model){const p=point(e);add(model,p.x,p.y);}});
 svg.addEventListener('pointerdown',e=>{if(view3d)return;if(e.button!==0)return;const target=e.target.closest('[data-plane]');if(!target)return;const rotating=e.target.hasAttribute('data-rotate');selected=Number(target.dataset.plane);const p=current(),pos=point(e);gesture={id:e.pointerId,rotate:rotating,dx:pos.x-p.x,dy:pos.y-p.y};svg.setPointerCapture(e.pointerId);e.preventDefault();render();});
@@ -443,8 +523,6 @@ function endDrag(){gesture=null;}svg.addEventListener('pointerup',endDrag);svg.a
 svg.addEventListener('keydown',e=>{if(view3d)return;const target=e.target.closest('[data-plane]');if(!target)return;selected=Number(target.dataset.plane);const p=current();const keys=['ArrowLeft','ArrowRight','ArrowUp','ArrowDown','r','R','Delete','Backspace','Enter',' '];if(!keys.includes(e.key))return;e.preventDefault();if(e.key==='ArrowLeft')p.x-=1;if(e.key==='ArrowRight')p.x+=1;if(e.key==='ArrowUp')p.y-=1;if(e.key==='ArrowDown')p.y+=1;if(e.key.toLowerCase()==='r')p.angle=(p.angle+(e.shiftKey?345:15))%360;if(e.key==='Delete'||e.key==='Backspace')remove();else render();layer.querySelector(`[data-plane="${selected}"]`)?.focus();});
 $('selected-plane').addEventListener('change',e=>{selected=Number(e.target.value);render();});
 $('plane-angle').addEventListener('input',e=>{if(current()){current().angle=Number(e.target.value);render();}});
-function rotate(amount){if(current()){current().angle=(current().angle+amount+360)%360;render();}}
-$('rotate-left').addEventListener('click',()=>rotate(-15));$('rotate-right').addEventListener('click',()=>rotate(15));
 function remove(){planes=planes.filter(p=>p.id!==selected);selected=planes.at(-1)?.id??null;render();}
 $('remove-plane').addEventListener('click',remove);$('clear-planes').addEventListener('click',()=>{planes=[];selected=null;render();});
 const share=globalThis.KBOX5Share,dialog=$('share-dialog');

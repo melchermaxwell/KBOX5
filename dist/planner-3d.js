@@ -26,26 +26,12 @@ function draw(){
  for(let y=0;y<=60;y+=15){box(0,y,0,.35,.35,20,'#7e919e');box(64.65,y,0,.35,.35,20,'#7e919e');face([[0,y,20],[65,y,20],[65,y+.25,20],[0,y+.25,20]],'#708590');}
  box(restroom.x,restroom.y,0,restroom.width,restroom.depth,9,'#e2e6df');box(6.3,6.02,0,3,.06,7,'#677f89');box(8.75,6.12,3,.13,.1,.13,'#edc34f');
  planes.forEach(plane=>{
-  const {profile,components}=anatomy(plane.model),m=plane.model,a=plane.angle*Math.PI/180,c=Math.cos(a),s=Math.sin(a);
-  const transform=(x,y,z)=>[plane.x+x*c-y*s,plane.y+x*s+y*c,z];
-  const zBody=m.shape==='twin'?4.5:3.2;
-  // Loft a fuselage around the same stations used by the floor-plan silhouette.
-  const rings=profile.body.map(([y,w])=>Array.from({length:10},(_,i)=>{const t=i*Math.PI/5;return transform(w*m.span*Math.cos(t),y*m.length,zBody+Math.sin(t)*Math.min(w*m.span,2.3));}));
-  for(let j=1;j<rings.length;j++)for(let i=0;i<10;i++)face([rings[j-1][i],rings[j][i],rings[j][(i+1)%10],rings[j-1][(i+1)%10]],i<5?m.color:'#788894');
-  for(const comp of components){if(comp.kind==='body'||comp.kind==='prop'||(comp.kind==='engine'&&profile.engines))continue;const z=comp.kind==='tail'?zBody+1:profile.highWing?zBody+1.3:zBody-.6;
-   const upper=comp.points.map(([x,y])=>transform(x,y,z+.13)),lower=comp.points.map(([x,y])=>transform(x,y,z-.13));face(upper,m.color);face(lower,'#778892');
-   for(let i=0;i<upper.length;i++){const j=(i+1)%upper.length;face([upper[i],upper[j],lower[j],lower[i]],m.color);}
+  const a=plane.angle*Math.PI/180,c=Math.cos(a),s=Math.sin(a);
+  for(const part of globalThis.KBOX5Aircraft3D.mesh(plane.model)){
+   const points=part.points.map(([x,y,z])=>[plane.x+x*c-y*s,plane.y+x*s+y*c,z]);
+   // Small surface quads are shaded without wireframe seams.
+   face(points,part.color,null);
   }
-  for(const [ex,ey,ew,el] of profile.engines||[]){
-   const rings=[0,.12,.8,1].map((f,j)=>Array.from({length:8},(_,i)=>{const t=i*Math.PI/4,r=ew*m.span*([.7,1,.85,.3][j]);return transform(ex*m.span+r*Math.cos(t),(ey+el*f)*m.length,zBody+r*Math.sin(t));}));
-   for(let j=1;j<rings.length;j++)for(let i=0;i<8;i++)face([rings[j-1][i],rings[j][i],rings[j][(i+1)%8],rings[j-1][(i+1)%8]],m.color);
-  }
-  for(const [px,py,pr] of profile.props||[]){const x=px*m.span,y=py*m.length,r=pr*m.span;face([transform(x-.10,y,zBody-r),transform(x+.10,y,zBody-r),transform(x+.10,y,zBody+r),transform(x-.10,y,zBody+r)],'#354955');face([transform(x-r,y,zBody-.10),transform(x+r,y,zBody-.10),transform(x+r,y,zBody+.10),transform(x-r,y,zBody+.10)],'#354955');}
-  // Cockpit glazing, upright fin and fixed landing gear add readable front-view volume.
-  const cockpitY=(profile.cockpit||-.25)*m.length,w=m.span*.031;
-  face([transform(-w,cockpitY-1,zBody+.8),transform(w,cockpitY-1,zBody+.8),transform(w*.8,cockpitY+1,zBody+2),transform(-w*.8,cockpitY+1,zBody+2)],'#243f52');
-  face([transform(0,m.length*.27,zBody),transform(0,m.length*.40,zBody+4),transform(0,m.length*.48,zBody+.2)],m.color);
-  for(const [x,y] of [[-m.span*.06,0],[m.span*.06,0],[0,-m.length*.3]]){const p=transform(x,y,0);box(p[0]-.3,p[1]-.5,.15,.6,1,1,'#273945');face([transform(x,y,1),transform(x+.1,y,1),transform(x+.1,y,zBody),transform(x,y,zBody)],'#566974');}
  });
  // Two equal leaves: fixed upper hinge, outward knee, lower edge rising vertically.
  const angle=door*Math.PI*.47,kneeY=60+height/2*Math.sin(angle),kneeZ=height-height/2*Math.cos(angle),bottomZ=height-height*Math.cos(angle);
@@ -53,7 +39,7 @@ function draw(){
  face(top,'#c6d0d4','#657c8a',true);face(bottom,'#b3c2ca','#657c8a',true);
  for(let x=2;x<64;x+=2){face([[x,60.02,height],[x+.035,60.02,height],[x+.035,kneeY+.02,kneeZ],[x,kneeY+.02,kneeZ]],'#8fa2ad','#8fa2ad');face([[x,kneeY+.02,kneeZ],[x+.035,kneeY+.02,kneeZ],[x+.035,60.02,bottomZ],[x,60.02,bottomZ]],'#8fa2ad','#8fa2ad');}
  box(0,60,0,1,.6,20,'#dce1e1');box(64,60,0,1,.6,20,'#dce1e1');box(0,60,18,65,.6,2,'#e7e9e4');
- faces.sort((a,b)=>b.depth-a.depth).forEach(f=>{ctx.beginPath();f.p.forEach((p,i)=>i?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1]));ctx.closePath();ctx.fillStyle=f.color;ctx.fill();ctx.strokeStyle=f.stroke;ctx.lineWidth=.45;ctx.stroke();if(f.doorPart)doorFaces.push(f.p);});
+ faces.sort((a,b)=>b.depth-a.depth).forEach(f=>{ctx.beginPath();f.p.forEach((p,i)=>i?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1]));ctx.closePath();ctx.fillStyle=f.color;ctx.fill();ctx.strokeStyle=f.stroke||f.color;ctx.lineWidth=f.stroke?.45:.55;ctx.lineJoin="round";ctx.stroke();if(f.doorPart)doorFaces.push(f.p);});
  const label=project([5,6.15,8]);if(door>.8){ctx.fillStyle='#304b5b';ctx.font='bold 11px Arial';ctx.textAlign='center';ctx.fillText('RESTROOM',label[0],label[1]);}
  ctx.textAlign='left';ctx.fillStyle='#203848';ctx.font='14px Arial';ctx.fillText('63′ BIFOLD DOOR  /  65′ × 60′ HANGAR',24,625);
 }

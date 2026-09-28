@@ -38,10 +38,10 @@ The planner is illustrative, excludes door/height/interior/maneuvering clearance
 
 ## Optional developer checks
 
-Developers with Node.js can run `node --test planner.test.mjs planner-share.test.mjs` to check the geometry. Node is only needed for these optional automated checks, never for using the site.
+Developers with Node.js can run `node --test planner.test.mjs planner-share.test.mjs aircraft-3d.test.mjs` to check the geometry. Node is only needed for these optional automated checks, never for using the site.
 
-The five JavaScript source files are embedded in `dist/index.html` so the aircraft picker does not rely on loading adjacent scripts through `file://`. After editing a JavaScript source file, run `python3 scripts/embed-scripts.py` to refresh the inline copy. Visitors do not need Python or Node.
+The six JavaScript source files are embedded in `dist/index.html` so the aircraft picker does not rely on loading adjacent scripts through `file://`. After editing a JavaScript source file, run `python3 scripts/embed-scripts.py` to refresh the inline copy. Visitors do not need Python or Node.
 
 ## Experimental 3D door view
 
-Select 3D Door View to move the camera to the apron. Click the door or use its button to animate the two folding leaves. Return to Top View to edit the same aircraft arrangement. This offline canvas renderer uses the existing footprint geometry with illustrative aircraft volumes, a 9 ft restroom and an assumed 18 ft door/20 ft wall height. These heights are not specifications or clearance checks. No external 3D library or server is required. Source: `dist/planner-3d.js`.
+Select 3D Door View to move the camera to the apron. Click the door or use its button to animate the two folding leaves. Return to Top View to edit the same aircraft arrangement. This offline canvas renderer uses the existing footprint geometry with illustrative aircraft volumes, a 9 ft restroom and an assumed 18 ft door/20 ft wall height. These heights are not specifications or clearance checks. No external 3D library or server is required. Scene source: `dist/planner-3d.js`; model meshes: `dist/aircraft-3d.js`. Aircraft now have individually estimated side profiles, tail types, propellers, engine intakes, glazing and round landing gear. See [reference notes](docs/aircraft-3d-references.md) for sources and per-model limitations.

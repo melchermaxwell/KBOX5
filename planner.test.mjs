@@ -4,7 +4,7 @@ import './dist/planner-geometry.js';
 const {models,parts,worldParts,assess,anatomy} = globalThis.KBOX5Geometry;
 const plane=(model,x=32.5,y=30,angle=0)=>({model,x,y,angle});
 test('all schematic dimensions match published extents',()=>{for(const model of models){const points=parts(model).flat(),xs=points.map(p=>p[0]),ys=points.map(p=>p[1]);assert.ok(Math.abs(Math.max(...xs)-Math.min(...xs)-model.span)<1e-8);assert.ok(Math.abs(Math.max(...ys)-Math.min(...ys)-model.length)<1e-8);}});
-test('all catalog aircraft fit individually at center and flag wall crossings when moved',()=>{for(const model of models){assert.deepEqual(assess([plane(model)]),[{outside:false,overlap:false,obstruction:false}]);assert.equal(assess([plane(model,0,0)])[0].outside,true);}});
+test('all catalog aircraft fit individually at center and flag wall crossings when moved',()=>{for(const model of models){assert.deepEqual(assess([plane(model)]),[{outside:false,overlap:false,obstruction:false,fuselageOverlap:false,sameModelOverlap:false}]);assert.equal(assess([plane(model,0,0)])[0].outside,true);}});
 test('movement and rotation transform dimensions consistently',()=>{const points=worldParts(plane(models[0],10,20,90)).flat();assert.ok(Math.abs(Math.max(...points.map(p=>p[0]))-Math.min(...points.map(p=>p[0]))-models[0].length)<1e-8);assert.equal(assess([plane(models[0],0,0)])[0].outside,true);});
 test('overlap detection handles identical and separated aircraft',()=>{assert.ok(assess([plane(models.find(m=>m.id==='cessna')),plane(models.find(m=>m.id==='cessna'))]).every(s=>s.overlap));assert.ok(assess([plane(models.find(m=>m.id==='cessna'),32.5,14),plane(models.find(m=>m.id==='cessna'),32.5,45)]).every(s=>!s.overlap&&!s.outside));});
 
@@ -26,3 +26,11 @@ test('restroom collision detects aircraft within hangar and clears after moving 
  assert.equal(assess([plane(model,32.5,30)])[0].obstruction,false);
  assert.equal(assess([plane(model,13,18,90)])[0].obstruction,false);
 });
+
+ test('fuselage and same-model overlaps are conflicts; mixed-model wing overlaps remain advisory',()=>{
+ const cessna=models.find(m=>m.id==='cessna'),vision=models.find(m=>m.id==='vision');
+ for(const angle of [0,45,180])assert.ok(assess([plane(cessna),plane(vision,32.5,30,angle)]).every(c=>c.fuselageOverlap&&!c.sameModelOverlap));
+ assert.ok(assess([plane(cessna,20,30),plane(cessna,44,30)]).every(c=>c.overlap&&c.sameModelOverlap&&!c.fuselageOverlap));
+ assert.ok(assess([plane(cessna,20,30),plane(vision,44,30)]).every(c=>c.overlap&&!c.sameModelOverlap&&!c.fuselageOverlap));
+ assert.ok(assess([plane(cessna,20,14),plane(vision,44,48)]).every(c=>!c.overlap&&!c.sameModelOverlap&&!c.fuselageOverlap));
+ });
