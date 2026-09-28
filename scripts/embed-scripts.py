@@ -5,7 +5,7 @@ import base64
 root = Path(__file__).resolve().parents[1] / 'dist'
 page = root / 'index.html'
 html = page.read_text()
-for name in ('app.js', 'planner-geometry.js', 'planner-share.js', 'planner.js'):
+for name in ('app.js', 'planner-geometry.js', 'planner-share.js', 'planner-3d.js', 'planner.js'):
     source = (root / name).read_text().replace('</script', '<\\/script')
     if name == 'planner.js':
         # Self-contained SVG previews can render/export even when opened via file://.

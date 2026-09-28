@@ -14,3 +14,7 @@ footer .footer-company{margin-left:0;font-size:16px;font-weight:600;letter-spaci
 #aircraft-catalog{max-height:410px;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:#9baeb9 #e1e7ea;padding-right:9px}#aircraft-catalog .aircraft-card:last-child{margin-bottom:0}@media(max-width:760px){#aircraft-catalog{max-height:340px}}
 
 .planner-actions{display:flex;align-items:center;gap:14px;flex-wrap:wrap}.planner-topbar{flex-wrap:wrap}#share-dialog{width:min(740px,calc(100% - 32px))}#share-preview{width:100%;display:block;background:#142b3b;margin:20px 0}#share-url{font-size:12px}#share-note{margin:12px 0}.share-buttons{display:flex;gap:12px;flex-wrap:wrap}#share-status{font-size:13px;line-height:1.5;margin:15px 0 0}.share-buttons button:disabled{opacity:.5;cursor:wait}
+
+.button-icon{display:block;flex-shrink:0;width:20px;height:20px}#share-layout{gap:12px}
+
+.planner-view-controls{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:20px}.planner-view-controls .button{padding:10px 14px;font-size:12px}.planner-view-controls span{font-size:12px;line-height:1.6;color:#bfd0da;flex:1;min-width:170px}#hangar-3d{display:block;width:100%;height:auto;margin:16px 0;cursor:pointer;border:1px solid #607580}.aircraft-sidebar[inert]{opacity:.5}.planner-plain:disabled{opacity:.4;cursor:default}
