@@ -34,3 +34,11 @@ test('restroom collision detects aircraft within hangar and clears after moving 
  assert.ok(assess([plane(cessna,20,30),plane(vision,44,30)]).every(c=>c.overlap&&!c.sameModelOverlap&&!c.fuselageOverlap));
  assert.ok(assess([plane(cessna,20,14),plane(vision,44,48)]).every(c=>!c.overlap&&!c.sameModelOverlap&&!c.fuselageOverlap));
  });
+
+test('B200 horizontal stabilizer has the reference straight trailing edge and broad root',()=>{
+ const m=models.find(m=>m.id==='king200'),tail=anatomy(m).components.find(c=>c.kind==='tail').points;
+ const root=tail.filter(([x])=>Math.abs(x)<m.span*.02),tip=tail.filter(([x])=>x>m.span*.15);
+ const range=pts=>Math.max(...pts.map(p=>p[1]))-Math.min(...pts.map(p=>p[1]));
+ assert.ok(range(root)>range(tip)*2,'root chord must be substantially broader than tip chord');
+ assert.ok(Math.abs(Math.max(...root.map(p=>p[1]))-Math.max(...tip.map(p=>p[1])))<.3,'trailing edge stays nearly straight across the span');
+});
