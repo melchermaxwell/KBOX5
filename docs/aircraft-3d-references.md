@@ -18,3 +18,18 @@ Research and refinement: September 27, 2026. These are original procedural illus
 Some sources are primary manufacturer/training manuals hosted by third parties. The AEA deicing handbook was examined but its grouped King Air/Citation figures and coarse figures were not used as precise variant geometry.
 
 Implementation: `dist/aircraft-3d.js` creates cached meshes with separate side stations for each model, shaded fuselage rings, thin wings/tails, nacelles, glazed surfaces, propellers and cylindrical wheels. `dist/planner-3d.js` transforms these meshes using the original layout positions and rotations. The renderer stays self-contained for offline `index.html` use.
+
+### King Air 200 refinement — September 28
+The user's supplied three-view diagram supersedes the earlier outline for this refinement. The planform now follows its center wing section, tapered outer panels, fuller cabin, swept horizontal tail, and nacelle spacing. The 3D mesh follows its swept T-tail, flatter inner wings, tapered nacelles, three-blade propellers, circular cabin-window treatment, and paired main wheels. Published overall span and length remain unchanged; interior heights and smaller details remain illustrative.
+
+### King Air C90B refinement — September 28
+The latest user-supplied image provides the new top-view wing, body, nacelle, and horizontal-tail landmarks, normalized to the C90B catalog wingspan and length. The user explicitly chose to retain the C90B's lower horizontal tail in 3D instead of the reference's high T-tail. The shared planform, tapered 3D nacelles, four-blade props, fuller cabin, round-window treatment, and paired main wheels were refined together. No tail-height or overall-dimension change was made.
+
+### Phenom 300 refinement — September 28
+The latest user-supplied top view sets the wing and horizontal-tail landmarks, rear nacelle spacing and size, swept winglet footprint, curved windshield band, entry-door outline, and cabin-window spacing. The revised planform feeds the 3D wings and tail; the 3D model also uses the narrower nacelles, explicit engine pylons, corresponding window stations, and swept winglets. Overall catalog dimensions remain unchanged.
+
+### TBM 850 top-view refinement — September 28
+The latest supplied reference sets the top-view landmarks for the broad straight wing, tapered tips, wider squared horizontal tail, long cowling, cabin, and rear fuselage. Split windshield glazing, side-window and door outlines, control-surface seams, dorsal-fin linework, and stationary propeller blades were redrawn. Catalog span and length are preserved. The shared wing/body/tail geometry also flows into the existing 3D mesh; no new height estimates were introduced.
+
+### Pilatus PC-12 top-view refinement — September 28
+The latest user reference supplies the straight tapered wing, wingtip profile, broad parallel cabin, long nose, tapering rear fuselage, and wider squared horizontal-tail landmarks. Cockpit panes, side windows, entry/cargo doors, roof details, and control-surface outlines are drawn separately from the collision geometry. Existing catalog span and length remain unchanged, and the shared planform is used by the 3D mesh as well.
