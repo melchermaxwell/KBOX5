@@ -10,6 +10,7 @@ const specs={
  tbm:{side:[[-.5,5.2,0],[-.42,5.1,1.15],[-.30,5.1,1.5],[-.19,5.9,2.5],[.10,5.9,2.5],[.30,6.6,1.1],[.5,7.1,0]],wing:3.5,dihedral:.07,tail:7.5,fin:[[.15,7],[.37,14.3],[.45,14.3],[.49,7.1]],engineZ:5.2,blades:4,propR:3.8,track:6.35,mainY:.025,noseY:-.35,wheel:.7,windows:3,glass:[-.26,-.17],windowStart:-.12},
  pc12:{side:[[-.5,5.4,0],[-.42,5.4,1.3],[-.32,5.8,1.7],[-.24,6.3,2.6],[-.12,6.3,2.85],[.16,6.3,2.8],[.32,7.6,1.2],[.5,8.2,0]],wing:3.4,dihedral:.07,tail:13.6,fin:[[.20,7.8],[.37,14],[.45,14],[.49,8.1]],engineZ:5.4,blades:5,propR:4.375,winglets:1.1,track:7.4,mainY:.07,noseY:-.30,wheel:.85,windows:5,glass:[-.30,-.22],windowStart:-.15},
  vision:{side:[[-.5,3.3,0],[-.40,3.4,1],[-.29,4.2,2.2],[-.14,4.4,2.7],[.04,4.4,2.5],[.23,4.9,1.2],[.5,5.1,0]],wing:2.5,dihedral:.055,tail:5.15,vtail:true,dorsal:true,track:4.6,mainY:.08,noseY:-.31,wheel:.55,windows:3,glass:[-.33,-.20],windowStart:-.13},
+ sr22:{side:[[-.5,4.2,0],[-.43,4.2,1],[-.34,4.3,1.35],[-.26,4.8,1.9],[-.17,4.8,2.2],[-.04,4.8,2.15],[.10,4.5,1.5],[.28,4.4,.7],[.5,4.6,0]],wing:2.75,dihedral:.045,tail:4.65,fin:[[.22,4.8],[.40,8.9167],[.49,8.9167],[.47,4.6]],engineZ:4.2,blades:3,propR:3.25,track:4.35,mainY:-.01,noseY:-.34,wheel:.58,fairings:true,windows:2,windowRanges:[[-.18,-.06],[-.01,.085]],glass:[-.30,-.195],windowStart:-.18},
  cessna:{side:[[-.5,5.7,0],[-.43,5.6,1.1],[-.33,5.5,1.4],[-.21,5.5,2],[.015,4.9,1.8],[.20,3.5,1],[.5,1.8,0]],wing:7.4,dihedral:.018,tail:2.25,fin:[[.23,3],[.35,7.9],[.43,7.9],[.49,2]],engineZ:5.7,blades:3,propR:3.35,track:4.3,mainY:-.20,wheel:.88,tailwheel:true,struts:true,windows:2,glass:[-.32,-.23],windowStart:-.17},
  cessna206:{side:[[-.5,4.4,0],[-.43,4.4,1.05],[-.33,4.5,1.5],[-.24,5.2,2],[.05,5.2,2],[.25,4.5,1.1],[.5,4.5,0]],wing:7.1,dihedral:.018,tail:4.65,fin:[[.23,5],[.37,9.3],[.45,9.3],[.49,4.5]],engineZ:4.4,blades:3,propR:3,track:4.6,mainY:-.03,noseY:-.36,wheel:.72,struts:true,windows:3,glass:[-.35,-.27],windowStart:-.20},
  mustang:{side:[[-.5,6,0],[-.44,5.9,1.25],[-.29,5.7,1.7],[-.16,5.4,1.65],[.05,4.8,1.7],[.24,3.5,.9],[.5,2.1,0]],wing:3.6,dihedral:.09,tail:2.65,fin:[[.20,3.5],[.36,11],[.43,10.8],[.49,2.5]],engineZ:6,blades:4,propR:5.55,track:5.2,mainY:-.16,wheel:1.05,tailwheel:true,canopy:true,windows:0,glass:[-.18,.06]}
@@ -30,16 +31,28 @@ function mesh(model){
  // Glazing and stripes are materials on the fuselage mesh itself. Floating
  // overlay quads cut through a curved hull and caused white gaps as it rotated.
  const noseStart=profile.props?.length===1?-.43:-.5;
- const windowRanges=Array.from({length:q.windows},(_,i)=>[(q.windowPositions?.[i]??q.windowStart+i*.059),(q.windowPositions?.[i]??q.windowStart+i*.059)+.026]);
- const stations=[...new Set([...Array.from({length:57},(_,i)=>noseStart+(.5-noseStart)*i/56),...profile.body.map(p=>p[0]),...q.side.map(p=>p[0]),...q.glass,...windowRanges.flat(),-.33,.264].filter(t=>t>=noseStart&&t<=.5))].sort((a,b)=>a-b);
- const angles=[...new Set([...Array.from({length:33},(_,i)=>i*pi/16),.10,.18,.65,pi-.65,pi-.18,pi-.10,pi/2-.025,pi/2+.025,.04,2*pi-.04,pi-.04,pi+.04])].sort((a,b)=>a-b);
+ const windowRanges=q.windowRanges||Array.from({length:q.windows},(_,i)=>[(q.windowPositions?.[i]??q.windowStart+i*.059),(q.windowPositions?.[i]??q.windowStart+i*.059)+.026]);
+ const stationCount=model.id==='sr22'?161:57,angleCount=model.id==='sr22'?65:33;
+ const stations=[...new Set([...Array.from({length:stationCount},(_,i)=>noseStart+(.5-noseStart)*i/(stationCount-1)),...profile.body.map(p=>p[0]),...q.side.map(p=>p[0]),...q.glass,...windowRanges.flat(),-.33,.264].filter(t=>t>=noseStart&&t<=.5))].sort((a,b)=>a-b);
+ const angles=[...new Set([...Array.from({length:angleCount},(_,i)=>i*2*pi/(angleCount-1)),.10,.18,.65,pi-.65,pi-.18,pi-.10,pi/2-.025,pi/2+.025,.04,2*pi-.04,pi-.04,pi+.04])].sort((a,b)=>a-b);
  const rings=stations.map(t=>angles.slice(0,-1).map(a=>bodyAt(t,a)));
+ const sr22Windows=[
+  [[-.239,5.25],[-.208,6.42],[-.141,6.43],[-.121,6.23],[-.151,5.28],[-.176,5.14],[-.227,5.13]],
+  [[-.104,6.15],[-.055,6.02],[-.006,5.73],[.005,5.45],[-.012,5.20],[-.12,5.17]]
+ ];
+ const sr22Door=[[-.247,4.25],[-.255,4.4],[-.218,6.55],[-.205,6.66],[-.125,6.62],[-.10,6.39],[-.113,5.8],[-.15,4.4],[-.17,4.25]];
+ const inPanel=(t,z,polygon)=>{let inside=false;for(let i=0,j=polygon.length-1;i<polygon.length;j=i++){const a=polygon[i],b=polygon[j];if((a[1]>z)!==(b[1]>z)&&t<(b[0]-a[0])*(z-a[1])/(b[1]-a[1])+a[0])inside=!inside;}return inside;};
+ const nearPanel=(t,z,polygon)=>polygon.some(([ay,az],i)=>{const [by,bz]=polygon[(i+1)%polygon.length],dy=(by-ay)*model.length,dz=bz-az,py=(t-ay)*model.length,pz=z-az,f=Math.max(0,Math.min(1,(py*dy+pz*dz)/(dy*dy+dz*dz)));return Math.hypot(py-f*dy,pz-f*dz)<.045;});
+
  for(let j=1;j<stations.length;j++)for(let i=0;i<angles.length-1;i++){
   const t=(stations[j-1]+stations[j])/2,a=(angles[i]+angles[i+1])/2;
   const cockpit=!q.canopy&&t>q.glass[0]&&t<q.glass[1]&&a>.18&&a<pi-.18&&Math.abs(a-pi/2)>.025;
-  const sideWindow=windowRanges.some(([from,to])=>q.roundWindows?((t-(from+to)/2)/((to-from)/2))**2+((Math.min(a,Math.abs(pi-a))-.375)/.275)**2<1:t>from&&t<to)&&((a>.10&&a<.65)||(a>pi-.65&&a<pi-.10));
+  let sideWindow=windowRanges.some(([from,to])=>q.roundWindows?((t-(from+to)/2)/((to-from)/2))**2+((Math.min(a,Math.abs(pi-a))-.375)/.275)**2<1:t>from&&t<to)&&((a>.10&&a<.65)||(a>pi-.65&&a<pi-.10));
+  const sr22Side=model.id==='sr22'&&Math.abs(Math.cos(a))>.45,skinZ=bodyAt(t,a)[2];
+  if(model.id==='sr22')sideWindow=sr22Side&&sr22Windows.some(p=>inPanel(t,skinZ,p));
+  const doorSeam=sr22Side&&nearPanel(t,skinZ,sr22Door);
   const belt=t>-.33&&t<.264&&(a<.04||a>2*pi-.04||Math.abs(a-pi)<.04);
-  const color=cockpit||sideWindow?dark:belt?trim:shade(white,.77+.23*Math.sin(a)),kind=cockpit?'cockpit':sideWindow?'window':belt?'livery':'fuselage';
+  const color=cockpit||sideWindow?dark:doorSeam?'#82929d':belt?trim:shade(white,.77+.23*Math.sin(a)),kind=cockpit?'cockpit':sideWindow?'window':doorSeam?'door-seam':belt?'livery':'fuselage';
   const k=(i+1)%rings[j].length;
   face([rings[j-1][i],rings[j][i],rings[j][k]],color,kind);
   face([rings[j-1][i],rings[j][k],rings[j-1][k]],color,kind);
@@ -56,7 +69,9 @@ function mesh(model){
  }else loft(x*model.span,y*model.length,q.engineZ,rx,rx*(q.jet?1:1.1),l*model.length,white,'nacelle');if(q.jet){const ey=y*model.length;loft(x*model.span,ey-.02,q.engineZ,rx*.75,rx*.75,.18,'#677b87','intake');}else loft(x*model.span,y*model.length-.35,q.engineZ,rx*.38,rx*.38,.6,trim,'spinner');}
  if(q.dorsal){loft(0,-.015*model.length,7.2,1.05,1.1,model.length*.25,white,'dorsal-engine');loft(0,-.015*model.length-.04,7.2,.78,.83,.2,dark,'intake');}
  for(const [px,py] of profile.props||[]){const x=px*model.span,y=(profile.props.length===1?-.455:py)*model.length,z=q.engineZ,r=q.propR;for(let i=0;i<q.blades;i++){const a=i*2*pi/q.blades+.3;const p=(radius,offset)=>[x+radius*Math.sin(a)+offset*Math.cos(a),y,z+radius*Math.cos(a)-offset*Math.sin(a)];face([p(.3,-.10),p(r*.75,-.20),p(r,-.09),p(r,.09),p(r*.6,.22),p(.3,.12)],'#283843','propeller');face([p(r*.89,-.11),p(r,-.09),p(r,.09),p(r*.89,.14)],trim,'propeller-tip');}const hub=Array.from({length:20},(_,i)=>[x+.4*Math.cos(i*pi/10),y+.08,z+.4*Math.sin(i*pi/10)]);for(let i=0;i<20;i++)face([[x,y-.65,z],hub[i],hub[(i+1)%20]],shade(white,.85+.15*Math.sin(i*pi/10)),'spinner');}
- function wheel(x,y,r,attachX,attachZ){const width=r*.55,rings=[x-width/2,x+width/2].map(v=>Array.from({length:16},(_,i)=>[v,y+r*Math.cos(i*pi/8),r+r*Math.sin(i*pi/8)]));skin(rings,'#263039','wheel');face(rings[0],'#263039','wheel');face(rings[1],'#263039','wheel');for(const side of [-1,1])face(Array.from({length:16},(_,i)=>[x+side*(width/2+.01),y+r*.4*Math.cos(i*pi/8),r+r*.4*Math.sin(i*pi/8)]),'#a6b0b5','hub');tube([x,y,r],[attachX,y,attachZ],.10,'#7b8a93','gear');}
+ function wheel(x,y,r,attachX,attachZ){const width=r*.55,rings=[x-width/2,x+width/2].map(v=>Array.from({length:16},(_,i)=>[v,y+r*Math.cos(i*pi/8),r+r*Math.sin(i*pi/8)]));skin(rings,'#263039','wheel');face(rings[0],'#263039','wheel');face(rings[1],'#263039','wheel');for(const side of [-1,1])face(Array.from({length:16},(_,i)=>[x+side*(width/2+.01),y+r*.4*Math.cos(i*pi/8),r+r*.4*Math.sin(i*pi/8)]),'#a6b0b5','hub');tube([x,y,r],[attachX,y,attachZ],.10,'#7b8a93','gear');
+ if(q.fairings){const fairing=Array.from({length:15},(_,j)=>{const t=j/14,scale=Math.sin(pi*t);return Array.from({length:20},(_,i)=>{const a=i*pi/10;return [x+r*.65*scale*Math.cos(a),y-r*1.9+t*r*4.2,r*1.45+r*.85*scale*Math.sin(a)];});});skin(fairing,white,'wheel-fairing');}
+ }
  for(const sign of [-1,1])for(const offset of q.dualMain?[-.32,.32]:[0])wheel(sign*q.track+offset,q.mainY*model.length,q.wheel,sign*(q.struts?1.3:q.track*.9),q.wing);
  if(q.tailwheel)wheel(0,model.length*.44,.32,0,1.8);else wheel(0,q.noseY*model.length,q.wheel*.72,0,interpolate(q.side,q.noseY)[0]-1);
  if(q.struts)for(const sign of [-1,1])tube([sign*1.4,-.04*model.length,3],[sign*model.span*.30,-.12*model.length,q.wing+model.span*.30*q.dihedral],.09,white,'wing-strut');
