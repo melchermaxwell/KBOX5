@@ -10,7 +10,7 @@
 <dialog id="share-dialog" aria-labelledby="share-title"><button type="button" class="close" id="close-share" aria-label="Close share dialog">×</button><p class="eyebrow">YOUR HANGAR LAYOUT</p><h2 id="share-title">Check out this KBOX5 hangar.</h2><img id="share-preview" alt="Preview of your aircraft arrangement"/><p class="contact-copy">Send this layout so someone else can explore the same aircraft, positions, and rotations.</p><label for="share-url">Layout link<input id="share-url" readonly type="url"/></label><p id="share-note" class="preview-note"></p><div class="share-buttons"><button id="copy-layout" class="button small">Copy link</button><button id="download-layout" class="button small">Save image</button></div><p id="share-status" role="status" aria-live="polite"></p></dialog>
 <section id="planner" class="section planner-section" aria-labelledby="planner-title">
 <div class="planner-heading"><div><p class="eyebrow">04 / MAKE ROOM FOR YOUR AIRCRAFT</p><h2 id="planner-title">See how you fit.</h2></div><p>One hangar. Your fleet.<br>Drag in an aircraft and make the space your own.</p></div>
-<div class="planner-shell"><div class="planner-workspace"><div class="planner-topbar"><div class="planner-title-controls"><span>INNER HANGAR / 65′ × 60′</span><button id="view-3d" class="button small" aria-pressed="false">3D Door View</button></div><div class="planner-actions"><button id="share-layout" class="button small">Share layout <svg class="button-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m8 11 8-5M8 13l8 5"/><circle cx="5" cy="12" r="3"/><circle cx="19" cy="4.5" r="3"/><circle cx="19" cy="19.5" r="3"/></svg></button><button id="clear-planes" class="planner-plain">Clear layout</button></div></div>
+<div class="planner-shell"><div class="planner-main"><div class="planner-topbar"><div class="planner-title-controls"><select id="hangar-layout" aria-label="Hangar layout"><option value="inner">INNER HANGAR / 65′ × 60′</option><option value="outer" disabled>OUTER HANGAR / COMING SOON</option></select><button id="view-3d" class="button small" aria-pressed="false">3D Door View</button></div><div class="planner-actions"><button id="share-layout" class="button small">Share layout <svg class="button-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m8 11 8-5M8 13l8 5"/><circle cx="5" cy="12" r="3"/><circle cx="19" cy="4.5" r="3"/><circle cx="19" cy="19.5" r="3"/></svg></button><button id="clear-planes" class="planner-plain">Clear layout</button></div></div><div class="planner-workspace">
 <div class="planner-view-controls"><button id="door-toggle" class="button small" aria-expanded="false" hidden>Open bifold door</button><span id="view-hint"></span></div><canvas id="hangar-3d" width="1500" height="990" aria-label="3D hangar preview. Use the door button to open or close the bifold door." hidden></canvas>
 <svg id="hangar-canvas" viewBox="-8 -9 81 80" aria-label="Interactive 65 by 60 foot hangar floor plan" aria-describedby="planner-help">
 <defs><pattern id="hangar-grid" width="5" height="5" patternUnits="userSpaceOnUse"><path d="M5 0H0V5" fill="none" stroke="#344b59" stroke-width=".12"/></pattern></defs>
@@ -20,7 +20,7 @@
 <g id="restroom-layer" role="img" aria-label="Rear-left restroom, 10 feet along the back wall and 6 feet deep"></g>
 <text id="planner-empty" x="32.5" y="29" text-anchor="middle" fill="#b5c7d1" font-size="2">Add an aircraft to start your layout</text><g id="aircraft-layer"></g></svg>
 <div class="planner-bottom"><span>TOP VIEW · 5′ GRID</span><span id="plane-count">0 aircraft</span></div><p id="planner-help">Drag to move. Use the round handle to rotate. Keyboard: arrows move 1′, R rotates 15°, Delete removes.</p>
-<div id="layout-status" role="status" aria-live="polite"></div></div>
+<div id="layout-status" role="status" aria-live="polite"></div></div></div>
 <aside class="aircraft-sidebar" aria-label="Aircraft selection"><p class="eyebrow">BUILD YOUR FLEET</p><h3>Choose your aircraft</h3><p class="sidebar-hint">Drag onto the plan, or select + to add.</p><div id="aircraft-catalog"></div>
 <div class="aircraft-controls"><label for="selected-plane">Selected aircraft</label><select id="selected-plane"><option value="">No aircraft selected</option></select><div class="rotation-label"><label for="plane-angle">Rotation</label><output id="angle-value">0°</output></div><input id="plane-angle" type="range" min="0" max="359" value="0" aria-label="Aircraft rotation"><button id="remove-plane">Remove Aircraft</button><p id="selected-status"></p></div></aside></div>
 <p class="planner-disclaimer">A floor-space illustration, not a confirmed fit. Wingspan and length are to scale; outlines are simplified. The inner-hangar restroom measures 10′ along the back wall and extends 6′ into the hangar. Red indicates overlapping fuselages, overlapping aircraft of the same model, a wall crossing, or restroom overlap. Amber indicates other overlapping aircraft footprints: verify vertical clearance. Aircraft height separation is not verified. The 63′ door opening is illustrated centered within the 65′ width. Door height and swing, propeller sweep, offices, and entry/maneuvering clearance are not modeled. Confirm your aircraft and hangar measurements before leasing.</p>
@@ -433,6 +433,7 @@ const cache=new WeakMap(),pi=Math.PI;
 function interpolate(stations,t){let i=1;while(i<stations.length-1&&t>stations[i][0])i++;const a=stations[i-1],b=stations[i],f=Math.max(0,Math.min(1,(t-a[0])/(b[0]-a[0])));return a.slice(1).map((v,j)=>v+(b[j+1]-v)*f);}
 function mesh(model){
  if(cache.has(model))return cache.get(model);
+ if(model.id==='king'){const result=Object.freeze(c90Mesh(model));cache.set(model,result);return result;}
  const {profile,components}=globalThis.KBOX5Geometry.anatomy(model),q=specs[model.id],faces=[];
  const white=model.id==='mustang'?'#c4cdd3':'#e8edf0',dark='#233d50',trim=model.color;
  const shade=(hex,f)=>'#'+hex.slice(1).match(/../g).map(v=>Math.max(0,Math.min(255,Math.round(parseInt(v,16)*f))).toString(16).padStart(2,'0')).join('');
@@ -491,6 +492,72 @@ function mesh(model){
  if(q.struts)for(const sign of [-1,1])tube([sign*1.4,-.04*model.length,3],[sign*model.span*.30,-.12*model.length,q.wing+model.span*.30*q.dihedral],.09,white,'wing-strut');
  if(q.canopy)loft(0,model.length*.02,3,1, .6,model.length*.17,'#9aaab4','radiator');
  const result=Object.freeze(faces);cache.set(model,result);return result;
+}
+// Dedicated C90B surfaces: independent of the approved 2D footprint.
+function c90Mesh(model){
+ const faces=[],white='#e8edf0',navy='#253e52',glass='#173c50',gold='#c6a052',metal='#9eafb9';
+ const shade=(hex,f)=>'#'+hex.slice(1).match(/../g).map(v=>Math.round(Math.min(255,parseInt(v,16)*f)).toString(16).padStart(2,'0')).join('');
+ function face(p,color,kind){if(p.some(v=>!v.every(Number.isFinite)))throw Error('Invalid C90 mesh');const a=p[1].map((v,i)=>v-p[0][i]),b=p[2].map((v,i)=>v-p[0][i]);if(Math.hypot(a[1]*b[2]-a[2]*b[1],a[2]*b[0]-a[0]*b[2],a[0]*b[1]-a[1]*b[0])<1e-10)return;faces.push({points:p,color,kind});}
+ function quad(p,color,kind){face([p[0],p[1],p[2]],color,kind);face([p[0],p[2],p[3]],color,kind);}
+ function smooth(rows,t){let i=1;while(i<rows.length-1&&t>rows[i][0])i++;const a=rows[i-1],b=rows[i],prev=rows[Math.max(0,i-2)],next=rows[Math.min(rows.length-1,i+1)],d=b[0]-a[0],u=Math.max(0,Math.min(1,(t-a[0])/d));return a.slice(1).map((v,k)=>{k++;const m0=(b[k]-prev[k])/(b[0]-prev[0]),m1=(next[k]-a[k])/(next[0]-a[0]);return Math.max(Math.min(v,b[k]),Math.min(Math.max(v,b[k]),(2*u**3-3*u*u+1)*v+(u**3-2*u*u+u)*d*m0+(-2*u**3+3*u*u)*b[k]+(u**3-u*u)*d*m1));});}
+ // Long radome, raised cockpit roof, constant cabin section and a rising tailcone.
+ const body=[[-.5,0,4.9,0],[-.485,.38,4.94,.35],[-.45,.95,4.96,.82],[-.39,1.52,5.02,1.2],[-.335,1.89,5.16,1.32],[-.315,1.97,5.20,1.40],[-.285,2.15,5.80,2.14],[-.23,2.42,5.8,2.35],[-.075,2.42,5.8,2.35],[.10,2.30,5.95,2.22],[.245,1.52,6.25,1.56],[.37,.80,6.77,.86],[.465,.25,7.24,.30],[.5,0,7.36,0]];
+ const hull=(t,a)=>{const [w,z,h]=smooth(body,t);return [w*Math.cos(a),t*model.length,z+h*Math.sin(a)];};
+ // Clip material regions into the hull tessellation, so window edges are crisp
+ // and cannot intersect the fuselage as floating decals would.
+ function half(poly,a,b,inside){const side=p=>(b[0]-a[0])*(p[1]-a[1])-(b[1]-a[1])*(p[0]-a[0]);const out=[];for(let i=0;i<poly.length;i++){const p=poly[i],q=poly[(i+1)%poly.length],dp=side(p),dq=side(q),pin=inside?dp>=-1e-10:dp<=1e-10,qin=inside?dq>=-1e-10:dq<=1e-10;if(pin)out.push(p);if(pin!==qin){const f=dp/(dp-dq);out.push([p[0]+f*(q[0]-p[0]),p[1]+f*(q[1]-p[1])]);}}return out;}
+ const masks=[];
+ function mask(poly,color,kind){const area=poly.reduce((s,p,i)=>{const q=poly[(i+1)%poly.length];return s+p[0]*q[1]-q[0]*p[1];},0);if(area<0)poly=[...poly].reverse();masks.push({poly,color,kind,lo:[Math.min(...poly.map(p=>p[0])),Math.min(...poly.map(p=>p[1]))],hi:[Math.max(...poly.map(p=>p[0])),Math.max(...poly.map(p=>p[1]))]});}
+ function pair(poly,color,kind){mask(poly,color,kind);mask(poly.map(([t,a])=>[t,pi-a]),color,kind);}
+ function ellipse(t,a,ry,ra,color,kind){pair(Array.from({length:24},(_,i)=>[t+ry*Math.cos(i*pi/12),a+ra*Math.sin(i*pi/12)]),color,kind);}
+ // Subtle two-tone belly and parallel pinstripes, mirrored on the cabin sides.
+ mask([[-.39,pi+.07],[.30,pi+.07],[.30,2*pi-.07],[-.39,2*pi-.07]],navy,'livery');
+ pair([[-.405,.015],[.34,.075],[.34,.11],[-.405,.050]],gold,'livery');
+ pair([[-.38,.080],[.31,.145],[.31,.178],[-.38,.113]],navy,'livery');
+ // Narrow port entry-door seams preserve the underlying shading and livery.
+ const doorOuter=[[.15,pi-.38],[.25,pi-.38],[.265,pi+.48],[.15,pi+.48]],doorInner=[[.152,pi-.37],[.248,pi-.37],[.263,pi+.47],[.152,pi+.47]];
+ for(let i=0;i<4;i++){const k=(i+1)%4;mask([doorOuter[i],doorOuter[k],doorInner[k],doorInner[i]],'#71828f','door-seam');}
+ for(const t of [-.17,-.065,.04,.195]){ellipse(t,.385,.016,.185,metal,'window-frame');ellipse(t,.385,.0135,.158,glass,'window');}
+ // Match the approved 2D windshield: a shallow curved band, two front panes,
+ // a narrow center mullion, and compact side glazing behind white corner posts.
+ // Map its plan-view Bezier boundaries onto the hull instead of extending
+ // angular masks over the cockpit roof.
+ const windshieldPoint=(u,rear)=>{const t=rear?-.2855+.0045*u*u:-.318+.015*u*u,x=u*(rear?.041:.039)*model.span;return [t,Math.acos(Math.min(1,x/smooth(body,t)[0]))];};
+ const center=.06/(.039*model.span);
+ for(let i=0;i<16;i++){const u=center+(1-center)*i/16,v=center+(1-center)*(i+1)/16;pair([windshieldPoint(u,false),windshieldPoint(v,false),windshieldPoint(v,true),windshieldPoint(u,true)],glass,'cockpit');}
+ pair([[-.273,.25],[-.227,.25],[-.229,.82],[-.273,.92]],glass,'cockpit');
+ function hullCell(poly,a){let pieces=[{poly,color:shade(white,.78+.22*Math.sin(a)),kind:'fuselage'}];const lo=[Math.min(...poly.map(p=>p[0])),Math.min(...poly.map(p=>p[1]))],hi=[Math.max(...poly.map(p=>p[0])),Math.max(...poly.map(p=>p[1]))];for(const m of masks){if(hi[0]<m.lo[0]||lo[0]>m.hi[0]||hi[1]<m.lo[1]||lo[1]>m.hi[1])continue;const next=[];for(const piece of pieces){let remaining=piece.poly;for(let j=0;j<m.poly.length&&remaining.length>=3;j++){const p=m.poly[j],q=m.poly[(j+1)%m.poly.length],outside=half(remaining,p,q,false);if(outside.length>=3)next.push({...piece,poly:outside});remaining=half(remaining,p,q,true);}if(remaining.length>=3)next.push({poly:remaining,color:m.color,kind:m.kind});}pieces=next;}for(const p of pieces){const v=p.poly.map(([t,a])=>hull(t,a));for(let i=1;i<v.length-1;i++)face([v[0],v[i],v[i+1]],p.color,p.kind);}}
+ const ts=[...new Set([...Array.from({length:91},(_,i)=>-.5+i/90),...body.map(s=>s[0])])].sort((a,b)=>a-b),na=48;
+ for(let j=1;j<ts.length;j++)for(let i=0;i<na;i++){const a=i*2*pi/na,b=(i+1)*2*pi/na;hullCell([[ts[j-1],a],[ts[j],a],[ts[j],b],[ts[j-1],b]],(a+b)/2);}
+ // Rounded airfoil sections replace the old flat slabs, including the low tail.
+ function airfoil(rows,vertical,kind){const samples=[];for(let j=1;j<rows.length;j++)for(let i=0;i<4;i++){const f=i/4;samples.push(rows[j-1].map((v,k)=>v+(rows[j][k]-v)*f));}samples.push(rows.at(-1));const n=16;
+  const point=(s,u,side)=>{const [r,front,rear,z,h]=s,f=(1-Math.cos(pi*u))/2,th=10*h*(.2969*Math.sqrt(f)-.126*f-.3516*f*f+.2843*f**3-.1036*f**4),c=.035*Math.sin(pi*f);return vertical?[side*th,front+(rear-front)*f,r]:[r,front+(rear-front)*f,z+c+side*th];};
+  for(let j=1;j<samples.length;j++)for(let i=0;i<n;i++)for(const side of [-1,1]){const u=i/n,v=(i+1)/n,chord=(1-Math.cos(pi*(u+v)/2))/2;let color=side>0?white:'#a4b3bd';if(vertical)color=chord>.77?navy:white;else if(kind==='wing'&&chord<.06)color='#344550';else if(chord>.76&&chord<.79)color='#9cacb5';quad([point(samples[j-1],u,side),point(samples[j],u,side),point(samples[j],v,side),point(samples[j-1],v,side)],color,kind);}
+  for(const s of [samples[0],samples.at(-1)])for(let i=0;i<n;i++)quad([point(s,i/n,1),point(s,(i+1)/n,1),point(s,(i+1)/n,-1),point(s,i/n,-1)],'#b0bec7',kind);
+ }
+ for(const sign of [-1,1]){
+  airfoil([[0,-9.3,-2.8,3.8,.55],[3,-9.3,-2.8,3.8,.55],[9.5,-9.0,-2.8,3.8,.43],[24.5,-8.05,-5.18,4.78,.16],[model.span/2,-7.87,-5.42,4.82,.018]].map(([x,...v])=>[x*sign,...v]),false,'wing');
+  airfoil([[0,12.1,16.7,7.8,.18],[1.1,12.3,16.75,7.8,.18],[8.3,15.3,17.2,7.93,.09],[8.55,15.55,17.12,7.94,.015]].map(([x,...v])=>[x*sign,...v]),false,'tailplane');
+ }
+ airfoil([[7.3,6.0,17.2,0,.22],[8.9,7.3,17.0,0,.22],[13.9,12.1,16.0,0,.10],[14.3,12.5,15.85,0,.045]],true,'fin');
+ function radialLoft(x,rows,color,kind,n=32){const rings=rows.map(([y,z,rx,rz])=>Array.from({length:n},(_,i)=>[x+rx*Math.cos(i*2*pi/n),y,z+rz*Math.sin(i*2*pi/n)]));for(let j=1;j<rings.length;j++)for(let i=0;i<n;i++){const k=(i+1)%n;quad([rings[j-1][i],rings[j][i],rings[j][k],rings[j-1][k]],shade(color,.78+.22*Math.sin((i+.5)*2*pi/n)),kind);}face(rings[0],color,kind);face(rings.at(-1),color,kind);}
+ function tube(a,b,r,color,kind){const d=b.map((v,i)=>v-a[i]),len=Math.hypot(...d),n=d.map(v=>v/len),ref=Math.abs(n[2])<.9?[0,0,1]:[0,1,0],u=[n[1]*ref[2]-n[2]*ref[1],n[2]*ref[0]-n[0]*ref[2],n[0]*ref[1]-n[1]*ref[0]],ul=Math.hypot(...u);u.forEach((v,i)=>u[i]/=ul);const v=[n[1]*u[2]-n[2]*u[1],n[2]*u[0]-n[0]*u[2],n[0]*u[1]-n[1]*u[0]],rings=[a,b].map(p=>Array.from({length:12},(_,i)=>p.map((c,j)=>c+r*(u[j]*Math.cos(i*pi/6)+v[j]*Math.sin(i*pi/6)))));for(let i=0;i<12;i++){const k=(i+1)%12;quad([rings[0][i],rings[1][i],rings[1][k],rings[0][k]],shade(color,.82+.15*Math.cos(i*pi/6)),kind);}face(rings[0],color,kind);face(rings[1],'#26333b',kind);}
+ for(const sign of [-1,1]){const x=sign*7.74,py=-14.63,z=5.1;
+  const sections=[[-14.35,5.1,.77,.81],[-13.85,5.1,1.02,1.03],[-12.5,5.05,1.17,1.16],[-10.4,5.0,1.16,1.13],[-8.5,4.95,.96,.93],[-6.6,4.75,.63,.65],[-4.7,4.48,.08,.12]];
+  const dense=[];for(let j=1;j<sections.length;j++)for(let k=0;k<4;k++){const y=sections[j-1][0]+(sections[j][0]-sections[j-1][0])*k/4;dense.push([y,...smooth(sections,y)]);}dense.push(sections.at(-1));radialLoft(x,dense,white,'nacelle');
+  radialLoft(x,[[-14.42,4.25,.45,.23],[-14.08,4.25,.52,.30],[-13.30,4.24,.38,.22]],white,'intake-fairing');
+  face(Array.from({length:24},(_,i)=>[x+.38*Math.cos(i*pi/12),-14.445,4.25+.16*Math.sin(i*pi/12)]),'#1b2932','intake');
+  tube([x+sign*.9,-12.55,5.12],[x+sign*1.5,-11.98,4.9],.22,'#677884','exhaust');
+  radialLoft(x,[[py-.72,z,.015,.015],[py-.58,z,.25,.25],[py-.30,z,.44,.44],[py+.10,z,.48,.48]],'#cbd5dc','spinner');
+  for(let blade=0;blade<4;blade++){const a=blade*pi/2+.24,p=(r,t,dy)=>[x+r*Math.sin(a)+t*Math.cos(a),py+dy,z+r*Math.cos(a)-t*Math.sin(a)],outline=[[.35,-.12],[1.0,-.21],[2.55,-.25],[3.48,-.13],[3.75,.02],[3.68,.16],[2.48,.30],[.9,.20]],front=outline.map(([r,t])=>p(r,t,-.035)),back=outline.map(([r,t])=>p(r,t,.035));face(front,'#26333e','propeller');face([...back].reverse(),'#465461','propeller');for(let i=0;i<front.length;i++){const k=(i+1)%front.length;quad([front[i],back[i],back[k],front[k]],'#33434d','propeller');}face([p(3.47,-.125,-.04),p(3.75,.02,-.04),p(3.68,.16,-.04),p(3.45,.19,-.04)],'#e7d6a3','propeller-tip');}
+ }
+ function wheel(x,y,r,w){const n=28,rings=[[-.5,.83],[-.36,.98],[.0,1],[.36,.98],[.5,.83]].map(([a,b])=>Array.from({length:n},(_,i)=>[x+w*a,y+r*b*Math.cos(i*2*pi/n),r+r*b*Math.sin(i*2*pi/n)]));for(let j=1;j<rings.length;j++)for(let i=0;i<n;i++){const k=(i+1)%n;quad([rings[j-1][i],rings[j][i],rings[j][k],rings[j-1][k]],j===2||j===3?'#202930':'#34414a','wheel');}face(rings[0],'#34414a','wheel');face(rings.at(-1),'#34414a','wheel');for(const side of [-1,1]){face(Array.from({length:n},(_,i)=>[x+side*w*.51,y+r*.49*Math.cos(i*2*pi/n),r+r*.49*Math.sin(i*2*pi/n)]),metal,'hub');for(let i=0;i<6;i++){const a=i*pi/3;face(Array.from({length:8},(_,j)=>[x+side*w*.515,y+r*.30*Math.cos(a)+r*.07*Math.cos(j*pi/4),r+r*.30*Math.sin(a)+r*.07*Math.sin(j*pi/4)]),'#465761','hub');}}}
+ for(const sign of [-1,1]){const x=sign*7.74,y=-3.65;for(const offset of [-.32,.32])wheel(x+offset,y,.83,.43);tube([x,y,.83],[x,y,4.3],.13,metal,'gear');tube([x,y,1.65],[x-sign*.55,y-.5,3.8],.08,metal,'gear');tube([x,y-.30,1.30],[x,y+.24,2.1],.085,'#d1dae0','gear');quad([[x-.28,y-.6,2.4],[x-.28,y+.65,2.4],[x-.28,y+.65,4.2],[x-.28,y-.6,4.2]],white,'gear-door');}
+ wheel(0,-14.1,.60,.39);tube([0,-14.1,.6],[0,-14.4,3.82],.11,metal,'gear');tube([0,-14.2,1.35],[0,-13.45,3.55],.075,metal,'gear');
+ // Small roof aerials and wingtip navigation-light housings complete the outline.
+ face([[0,.4,8.15],[0,1.1,9.05],[0,1.35,8.10]],white,'antenna');
+ for(const sign of [-1,1])radialLoft(sign*24.93,[[-6.4,4.85,.11,.09],[-5.9,4.85,.12,.09],[-5.55,4.85,.035,.04]],sign<0?'#ba5452':'#528c77','navigation-light',12);
+ return faces;
 }
 globalThis.KBOX5Aircraft3D=Object.freeze({mesh,specs});
 })();
@@ -561,21 +628,21 @@ let planes=[],selected=null,serial=0,gesture=null,view3d=false;
 $('view-3d').addEventListener('click',()=>{
  const button=$('view-3d');
  if(!view3d){
-  view3d=true;gesture=null;svg.hidden=true;$('hangar-3d').hidden=false;$('door-toggle').hidden=false;
+  view3d=true;gesture=null;svg.setAttribute('hidden','');$('hangar-3d').hidden=false;$('door-toggle').hidden=false;
   document.querySelector('.aircraft-sidebar').inert=true;$('clear-planes').disabled=true;
   button.textContent='Return to Top View';button.setAttribute('aria-pressed','true');
   $('view-hint').textContent='View only · click the door to open it. Heights and aircraft volumes are illustrative.';
   $('planner-help').hidden=true;globalThis.KBOX5View3D.enter(planes);
  }else{
   button.disabled=true;$('door-toggle').hidden=true;
-  globalThis.KBOX5View3D.leave(()=>{view3d=false;svg.hidden=false;$('hangar-3d').hidden=true;
+  globalThis.KBOX5View3D.leave(()=>{view3d=false;svg.removeAttribute('hidden');$('hangar-3d').hidden=true;
    document.querySelector('.aircraft-sidebar').inert=false;$('clear-planes').disabled=false;
    button.disabled=false;button.textContent='3D Door View';button.setAttribute('aria-pressed','false');
    $('view-hint').textContent='';$('planner-help').hidden=false;render();
   });
  }
 });
-function thumbnail(model){const size=Math.max(model.span,model.length)*1.1;return `<svg viewBox="${-size/2} ${-size/2} ${size} ${size}" aria-hidden="true">${aircraftMarkup(model)}</svg>`;}
+function thumbnail(model){const size=Math.max(model.span,model.length)*1.1;return `<svg viewBox="${-size/2} ${-size/2} ${size} ${size}" aria-hidden="true"><g transform="rotate(180)">${aircraftMarkup(model)}</g></svg>`;}
 models.forEach(model=>{const card=document.createElement('button');card.className='aircraft-card';card.draggable=false;card.setAttribute('aria-label',`Add ${model.name}`);card.innerHTML=`${thumbnail(model)}<span><strong>${model.name}</strong><small>${model.type}</small><small>${model.dimensions}</small></span><b aria-hidden="true">+</b>`;let cardDrag=null,suppressClick=false;
 card.addEventListener('click',()=>{if(suppressClick){suppressClick=false;return;}add(model);});
 card.addEventListener('pointerdown',e=>{if(e.button!==0)return;suppressClick=false;cardDrag={id:e.pointerId,x:e.clientX,y:e.clientY,ghost:null};card.setPointerCapture(e.pointerId);});
