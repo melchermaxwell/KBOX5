@@ -19,3 +19,11 @@ test('taildraggers have aft tailwheels and high-wing Cessnas have lift struts',(
  for(const id of ['cessna','cessna206'])assert.ok(mesh(model(id)).some(f=>f.kind==='wing-strut'));
  for(const id of ['bravo','phenom'])assert.ok(mesh(model(id)).some(f=>f.kind==='intake'));
 });
+test('refined C90 keeps catalog extents and produces nondegenerate surface triangles',()=>{
+ const m=model('king'),original=JSON.stringify(m),faces=mesh(m),points=faces.flatMap(f=>f.points);
+ for(const [axis,expected] of [[0,m.span],[1,m.length]]){
+  const values=points.map(p=>p[axis]);assert.ok(Math.abs(Math.max(...values)-Math.min(...values)-expected)<.01);
+ }
+ for(const f of faces){const [p,q,r]=f.points,a=q.map((v,i)=>v-p[i]),b=r.map((v,i)=>v-p[i]);assert.ok(Math.hypot(a[1]*b[2]-a[2]*b[1],a[2]*b[0]-a[0]*b[2],a[0]*b[1]-a[1]*b[0])>1e-10,f.kind);}
+ assert.equal(JSON.stringify(m),original,'3D generation must not change the catalog model');
+});

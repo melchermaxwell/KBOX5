@@ -8,21 +8,21 @@ let planes=[],selected=null,serial=0,gesture=null,view3d=false;
 $('view-3d').addEventListener('click',()=>{
  const button=$('view-3d');
  if(!view3d){
-  view3d=true;gesture=null;svg.hidden=true;$('hangar-3d').hidden=false;$('door-toggle').hidden=false;
+  view3d=true;gesture=null;svg.setAttribute('hidden','');$('hangar-3d').hidden=false;$('door-toggle').hidden=false;
   document.querySelector('.aircraft-sidebar').inert=true;$('clear-planes').disabled=true;
   button.textContent='Return to Top View';button.setAttribute('aria-pressed','true');
   $('view-hint').textContent='View only · click the door to open it. Heights and aircraft volumes are illustrative.';
   $('planner-help').hidden=true;globalThis.KBOX5View3D.enter(planes);
  }else{
   button.disabled=true;$('door-toggle').hidden=true;
-  globalThis.KBOX5View3D.leave(()=>{view3d=false;svg.hidden=false;$('hangar-3d').hidden=true;
+  globalThis.KBOX5View3D.leave(()=>{view3d=false;svg.removeAttribute('hidden');$('hangar-3d').hidden=true;
    document.querySelector('.aircraft-sidebar').inert=false;$('clear-planes').disabled=false;
    button.disabled=false;button.textContent='3D Door View';button.setAttribute('aria-pressed','false');
    $('view-hint').textContent='';$('planner-help').hidden=false;render();
   });
  }
 });
-function thumbnail(model){const size=Math.max(model.span,model.length)*1.1;return `<svg viewBox="${-size/2} ${-size/2} ${size} ${size}" aria-hidden="true">${aircraftMarkup(model)}</svg>`;}
+function thumbnail(model){const size=Math.max(model.span,model.length)*1.1;return `<svg viewBox="${-size/2} ${-size/2} ${size} ${size}" aria-hidden="true"><g transform="rotate(180)">${aircraftMarkup(model)}</g></svg>`;}
 models.forEach(model=>{const card=document.createElement('button');card.className='aircraft-card';card.draggable=false;card.setAttribute('aria-label',`Add ${model.name}`);card.innerHTML=`${thumbnail(model)}<span><strong>${model.name}</strong><small>${model.type}</small><small>${model.dimensions}</small></span><b aria-hidden="true">+</b>`;let cardDrag=null,suppressClick=false;
 card.addEventListener('click',()=>{if(suppressClick){suppressClick=false;return;}add(model);});
 card.addEventListener('pointerdown',e=>{if(e.button!==0)return;suppressClick=false;cardDrag={id:e.pointerId,x:e.clientX,y:e.clientY,ghost:null};card.setPointerCapture(e.pointerId);});
