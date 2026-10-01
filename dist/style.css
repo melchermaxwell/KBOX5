@@ -48,3 +48,6 @@ footer .footer-company{margin-left:0;font-size:16px;font-weight:600;letter-spaci
 @media(min-width:1101px){header nav a{white-space:nowrap}}
 
 @media(max-width:650px){header>.menu{padding:7px 11px}}
+
+/* Opening announcement directly beneath the navigation. */
+.opening-banner{margin:0;padding:13px 20px;background:var(--yellow);color:var(--ink);text-align:center;font-size:12px;font-weight:700;line-height:1.5;letter-spacing:2px;text-transform:uppercase}
